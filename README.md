@@ -16,8 +16,14 @@ entry and processing. Please include a GUI to interact with the data for all
 database tables. The server application need not have a GUI. However, you may include
 graphical components to enhance user experience.
 
-Instructions:
+## Instructions:
 1. System Name: Grizzly’s Entertainment Equipment Rental
 2. Logging should be on both client side and server side
 3. Use appropriate exception handling
 4. Graphical User Interface should be implemented as a Multi-document Interface(MDI)
+
+## Group Members
+- Khamali Powell
+- Javian Burke
+- Joel Desgouttes
+
