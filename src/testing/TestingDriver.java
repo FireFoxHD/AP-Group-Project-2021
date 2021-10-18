@@ -2,18 +2,17 @@ package testing;
 
 import java.sql.Connection;
 
-import classes.Equipment;
+import models.Equipment;
 
 public class TestingDriver {
-static Connection connection = null;
-	
+	static Connection connection = null;
+
 	public static void main(String[] args) {
-		
-		//Driver and package just to test method functionality until GUI is implemented
-		//May be deleted when no longer necessary
-		
-		
-		/*System.out.println("im runnung");
+
+		// Driver and package just to test method functionality until GUI is implemented
+		// May be deleted when no longer necessary
+
+		System.out.println("im runnung");
 		Equipment equip = new Equipment();
 		equip.create("1002", "Sound", "20 ft Speaker Box", 24000, "Not Booked");
 		equip.create("1000", "Lighting", "30 ft Light Array", 9000, "Booked");
@@ -25,6 +24,6 @@ static Connection connection = null;
 		equip.readOne("1000");
 		equip.update("1003", "Lighting", "20 ft String Lights", 8000, "Not Booked");
 		equip.readAll();
-		equip.Delete("1003");*/
+		equip.Delete("1003");
 	}
 }
