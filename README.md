@@ -26,4 +26,5 @@ graphical components to enhance user experience.
 - Khamali Powell
 - Javian Burke
 - Joel Desgouttes
+- Richard Robinson
 
