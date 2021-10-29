@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2021 at 03:19 AM
--- Server version: 10.4.13-MariaDB
--- PHP Version: 7.4.8
+-- Generation Time: Oct 29, 2021 at 08:26 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 7.3.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `equipment_rental`
 --
-CREATE DATABASE IF NOT EXISTS `equipment_rental` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `equipment_rental`;
 
 -- --------------------------------------------------------
 
@@ -52,24 +50,16 @@ CREATE TABLE `employee` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `equipment_table`
+-- Table structure for table `equiptment_table`
 --
 
-CREATE TABLE `equipment_table` (
-  `equipment_id` varchar(20) NOT NULL,
-  `equipment_category` varchar(20) NOT NULL,
-  `equipment_name` varchar(50) NOT NULL,
+CREATE TABLE `equiptment_table` (
+  `equiptment_id` varchar(20) NOT NULL,
+  `equiptment_category` varchar(20) NOT NULL,
+  `equiptment_name` varchar(50) NOT NULL,
   `cost` float NOT NULL,
   `rental_status` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `equipment_table`
---
-
-INSERT INTO `equipment_table` (`equipment_id`, `equipment_category`, `equipment_name`, `cost`, `rental_status`) VALUES
-('1000', 'Lighting', '30 ft Light Array', 9000, 'Not Booked'),
-('1002', 'Sound', '20 ft Speaker Box', 24000, 'Not Booked');
 
 -- --------------------------------------------------------
 
@@ -103,10 +93,10 @@ ALTER TABLE `employee`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `equipment_table`
+-- Indexes for table `equiptment_table`
 --
-ALTER TABLE `equipment_table`
-  ADD PRIMARY KEY (`equipment_id`);
+ALTER TABLE `equiptment_table`
+  ADD PRIMARY KEY (`equiptment_id`);
 
 --
 -- Indexes for table `order`
