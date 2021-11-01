@@ -4,6 +4,9 @@ import java.sql.*;
 
 import javax.swing.JOptionPane;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class employee {
 	private String id;
 	private String name;
@@ -11,6 +14,8 @@ public class employee {
 	private Statement stmt = null;
 	private ResultSet result = null;
 	private int numOfRowsAffected = 0;
+	
+	private static final Logger logger = LogManager.getLogger(employee.class);
 	
 	public String getId() {
 		return id;
@@ -46,9 +51,11 @@ public class employee {
 			numOfRowsAffected = stmt.executeUpdate(insertSql);
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Employee record created", "Employee Creation", JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Employee record created");
 			}
 		}catch(SQLException e) {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
+			logger.error("Employee record not created: " +e.getMessage());
 		}
 		
 	}
@@ -65,8 +72,10 @@ public class employee {
 				
 				System.out.println("ID: " + id + "\tName: " + name);
 			}
+			logger.info("Employee records read");
 		}catch(SQLException e) {
 			System.err.println("Error Selecting All: " + e.getMessage());
+			logger.error("Unable to read employee records: "+e.getErrorCode());
 		}
 		
 	}
@@ -79,9 +88,11 @@ public class employee {
 				numOfRowsAffected = stmt.executeUpdate(updateSQL);
 				if (numOfRowsAffected == 1) {
 					JOptionPane.showMessageDialog(null, "Employee record has been updated", "Employee Update", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Employee record updated");
 				}
 			}catch (SQLException e) {
 				System.err.println("Error Updating: " + e.getMessage());
+				logger.error("Error updating employee record: " +e.getMessage());
 			}
 			
 		}
@@ -94,9 +105,11 @@ public class employee {
 				numOfRowsAffected = stmt.executeUpdate(deleteSQL);
 				if (numOfRowsAffected == 1) {
 					JOptionPane.showMessageDialog(null, "Employee record deleted", "Employee Delete", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Employee record deleted");
 				}
 			}catch(SQLException e) {
 				System.err.println("Error Deleting: " + e.getMessage());
+				logger.error("Unable to delete employee record: " +e.getMessage());
 			}
 		}
 	

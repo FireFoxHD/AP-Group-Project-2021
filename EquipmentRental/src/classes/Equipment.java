@@ -7,6 +7,9 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import dbconnection.DbConnect;
 
 public class Equipment {
@@ -15,6 +18,8 @@ public class Equipment {
 	private String category;
 	private double cost;
 	private String status;
+	private static final Logger logger = LogManager.getLogger(Equipment.class);
+	
 	public String getEquip_id() {
 		return equip_id;
 	}
@@ -78,11 +83,13 @@ public class Equipment {
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Equipment Record Created", "Message", JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Equipment record created");
 			}
 		}
 		catch(SQLException e)
 		{
 			System.out.println("SQL Exception: " + e.getMessage());
+			logger.error("Equipment record not created, SQL Exception: "+e.getMessage());
 		}
 	}
 
@@ -97,11 +104,13 @@ public class Equipment {
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Equipment Record Deleted", "Message", JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Equipment record deleted");
 			}
 		}
 		catch(SQLException e)
 		{
 			System.err.println("Delete error: " +e.getMessage());
+			logger.error("Delete error, SQL Exception: " +e.getMessage());
 		}
 	}
 	
@@ -123,10 +132,12 @@ public class Equipment {
 				String status = result.getString("rental_status");
 				System.out.println("ID: "+id+"\t\tName: "+name+"\t\tCategory: "+category+"\t\tCost: "+cost+"\t\tStatus: "+status);
 			}
+			logger.info("Equipment records accessed");
 		}
 		catch(SQLException e)
 		{
 			System.err.println("SQL Exception: " +e.getMessage());
+			logger.error("Error reading equipment records: " +e.getMessage());
 		}
 	}
 	
@@ -141,11 +152,13 @@ public class Equipment {
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Equipment record updated");
 			}
 		}
 		catch(SQLException e)
 		{
 			System.err.println("Update error: " +e.getMessage());
+			logger.error("Equipment record not updated: " +e.getMessage());
 		}
 	}
 	
@@ -165,10 +178,13 @@ public class Equipment {
 			double cost = result.getDouble("cost");
 			String status = result.getString("rental_status");
 			System.out.println("ID: "+id+"\t\tName: "+name+"\t\tCategory: "+category+"\t\tCost: "+cost+"\t\tStatus: "+status);
+			
+			logger.info("Single equipement record read");
 		}
 		catch(SQLException e)
 		{
 			System.err.println("SQL Exception: " +e.getMessage());
+			logger.error("Could not read equipment record: "+e.getMessage());
 		}
 	}
 }
