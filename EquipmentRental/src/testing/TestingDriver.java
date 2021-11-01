@@ -1,11 +1,13 @@
 package testing;
 
 import java.sql.Connection;
-
 import classes.Equipment;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TestingDriver {
-static Connection connection = null;
+//static Connection connection = null;
+private static final Logger logger = LogManager.getLogger(TestingDriver.class);
 	
 	public static void main(String[] args) {
 		
