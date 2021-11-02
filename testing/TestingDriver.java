@@ -1,11 +1,13 @@
 package testing;
 
 import java.sql.Connection;
-
 import classes.Equipment;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TestingDriver {
 static Connection connection = null;
+private static final Logger logger= LogManager.getLogger(TestingDriver.class);
 	
 	public static void main(String[] args) {
 		
@@ -13,7 +15,7 @@ static Connection connection = null;
 		//May be deleted when no longer necessary
 		
 		
-		/*System.out.println("im runnung");
+		/*System.out.println("im running");
 		Equipment equip = new Equipment();
 		equip.create("1002", "Sound", "20 ft Speaker Box", 24000, "Not Booked");
 		equip.create("1000", "Lighting", "30 ft Light Array", 9000, "Booked");
@@ -26,5 +28,7 @@ static Connection connection = null;
 		equip.update("1003", "Lighting", "20 ft String Lights", 8000, "Not Booked");
 		equip.readAll();
 		equip.Delete("1003");*/
+		
+		logger.info("");
 	}
 }

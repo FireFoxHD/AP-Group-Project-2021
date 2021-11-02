@@ -1,4 +1,4 @@
-package dbconnection;
+package EquipmentRental.src.dbconnection;
 
 import java.sql.Connection;
 
