@@ -4,24 +4,34 @@ import java.sql.*;
 
 import javax.swing.JOptionPane;
 
+import dbconnection.DbConnect;
+
 public class Employee {
 	private String id;
-	private String name;
+	private String firstname;
+	private String lastname;
 	private String password;
+	private String role;
+	
 	private Statement stmt = null;
 	private ResultSet result = null;
 	private int numOfRowsAffected = 0;
+	private Connection connection = DbConnect.getConnection();
 	
 	public Employee() {
 		this.id = "";
-		this.name = "";
+		this.firstname = "";
+		this.lastname = "";
 		this.password = "";
+		this.role = "";
 	}
 	
-	public Employee(String id, String name, String pass) {
+	public Employee(String id, String firstname, String lastname, String pass, String role) {
 		this.id = id;
-		this.name = name;
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.password = pass;
+		this.role = role;
 	}
 
 	public String getId() {
@@ -32,12 +42,20 @@ public class Employee {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public String getPassword() {
@@ -48,18 +66,26 @@ public class Employee {
 		this.password = password;
 	}
 	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
 	@Override
 	public String toString() {
-		return "ID: " + this.id + "\tName: " + this.name + "\t pass: "+ this.password;
+		return "ID: " + this.id + "\tName: " + this.firstname +" "+this.lastname + "\t pass: "+ this.password + "\t Role: "+this.role;
+		
 	}
 	
 
 	// CRUD operations
 
 	// create
-	public void create(Connection connection) {
-		String insertSql = "INSERT INTO equipment_rental.employee VALUES ('" + getId() + "', '" + getName() + "','"
-				+ getPassword() + "')";
+	public void create() {
+		String insertSql = "INSERT INTO equipment_rental.employee VALUES ('"+id+"','"+firstname+"','"+lastname+"','"+role+"')";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(insertSql);
@@ -67,32 +93,75 @@ public class Employee {
 				JOptionPane.showMessageDialog(null, "Employee record created", "Employee Creation",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
+			
+			createPassword(getId(), getPassword());
+			
 		} catch (SQLException e) {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
 		}
 
 	}
 
-	// select all
-	public void readAll(Connection connection) {
-		String selectSql = "SELECT * FROM equipment_rental.employee WHERE 1 = 1";
+	// Create Password
+	public void createPassword(String id, String password) {
+		String insertSql = "INSERT INTO equipment_rental.hash VALUES ('" + id + "', '" + password+"')";
+		try {
+			stmt = connection.createStatement();
+			numOfRowsAffected = stmt.executeUpdate(insertSql);
+			if (numOfRowsAffected == 1) {
+				JOptionPane.showMessageDialog(null, "Password entry created", "Password Creation",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL Exception thrown: create " + e.getMessage());
+		}
+
+	}
+	
+	//Read
+	public void read() {
+		String selectSql = "SELECT * FROM equipment_rental.employee WHERE id =" + id;
 		try {
 			stmt = connection.createStatement();
 			result = stmt.executeQuery(selectSql);
 			while (result.next()) {
 				String id = result.getString("id");
-				String name = result.getString("name");
+				String firstname = result.getString("firstname");
+				String lastname = result.getString("lastname");
+				String password = result.getString("password");
+				String role = result.getString("role");
 
-				System.out.println("ID: " + id + "\tName: " + name);
+				System.out.println("ID: " + id + "\tPass: "+ password +"\tName: " + firstname+" "+lastname+"\tRole: "+role);
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Selecting All: " + e.getMessage());
 		}
 
 	}
+	
+	// select all
+	public void readAll() {
+		String selectSql = "SELECT * FROM equipment_rental.employee WHERE 1 = 1";
+		try {
+			stmt = connection.createStatement();
+			result = stmt.executeQuery(selectSql);
+			while (result.next()) {
+				String id = result.getString("id");
+				String firstname = result.getString("firstname");
+				String lastname = result.getString("lastname");
+				String password = result.getString("password");
+				String role = result.getString("role");
 
+				System.out.println("ID: " + id + "\tPass: "+ password +"\tName: " + firstname+" "+lastname+"\tRole: "+role);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error Selecting All: " + e.getMessage());
+		}
+
+	}
+	
 	// update
-	public void update(String id, String name, String password, Connection connection) {
+	public void updateAll(String id, String firstname, String lastname, String password, String role) {
 		String updateSQL = "UPDATE equipment_rental.employee SET id='" + getId() + "' WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -106,9 +175,25 @@ public class Employee {
 		}
 
 	}
+	
+	// update Role
+	public void updateRole(String role) {
+		String updateSQL = "UPDATE equipment_rental.employee SET role ='" + role + "' WHERE id = " + id;
+		try {
+			stmt = connection.createStatement();
+			numOfRowsAffected = stmt.executeUpdate(updateSQL);
+			if (numOfRowsAffected == 1) {
+				JOptionPane.showMessageDialog(null, "Employee record has been updated", "Employee Update",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error Updating: " + e.getMessage());
+		}
 
-	// delete
-	public void delete(String id, Connection connection) {
+	}
+
+	// Delete
+	public void delete(String id) {
 		String deleteSQL = "DELETE FROM equipment_rental.employee WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();

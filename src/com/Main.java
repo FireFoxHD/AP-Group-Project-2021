@@ -1,16 +1,13 @@
-package main;
+package com;
 
-import java.time.LocalDateTime;
 import models.*;
 
-public class main {
+public class Main {
 
-		
 	public static void main(String[] args) {
-		LocalDateTime now = LocalDateTime.now();
-		Order ord = new Order("", "", "", "", now, now.plusDays(15));
-		Customer cust = new Customer("001", "rick grimes", "password", ord ,5000.00);
 		
+		Customer cust = new Customer("001", "rick","grimes", "password",5000.00);
+		System.out.println(cust.getFirstname());
 		
 	}
 

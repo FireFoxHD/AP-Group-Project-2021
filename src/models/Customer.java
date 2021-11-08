@@ -7,6 +7,8 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
+import dbconnection.DbConnect;
+
 public class Customer {
 	private String id;
 	private String firstname;
@@ -17,6 +19,7 @@ public class Customer {
 	private Statement stmt = null;
 	private ResultSet result = null;
 	private int numOfRowsAffected = 0;
+	private Connection connection = DbConnect.getConnection();
 	
 	public Customer() {
 		this.id = "";
@@ -26,8 +29,7 @@ public class Customer {
 		this.balance = 0.0;
 	}
 	
-	
-	public Customer(String id, String firstname, String lastname, String pass, Order order, double bal) {
+	public Customer(String id, String firstname, String lastname, String pass, double bal) {
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -82,15 +84,34 @@ public class Customer {
 
 	// CRUD Operations
 
-	// create
-	public void create(Connection connection) {
-		String insertSql = "INSERT INTO equipment_rental.customer VALUES ('" + getId() + "', '" + getFirstname() + "','" + getLastname() + "')"
-				+ getPassword() + "','" + getBalance() + "')";
+	// Create
+	public void create() {
+		String insertSql = "INSERT INTO equipment_rental.customer VALUES ('" + getId() + "', '" + getFirstname() + "','" + getLastname() + "','" + getBalance() + "')";
+		
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(insertSql);
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Customer created", "Customer Creation",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+			
+			createPassword(getId(), getPassword());
+			
+		} catch (SQLException e) {
+			System.out.println("SQL Exception thrown: create " + e.getMessage());
+		}
+
+	}
+
+	// Create Password
+	public void createPassword(String id, String password) {
+		String insertSql = "INSERT INTO equipment_rental.hash VALUES ('" + id + "', '" + password+"')";
+		try {
+			stmt = connection.createStatement();
+			numOfRowsAffected = stmt.executeUpdate(insertSql);
+			if (numOfRowsAffected == 1) {
+				JOptionPane.showMessageDialog(null, "Password entry created", "Password Creation",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} catch (SQLException e) {
@@ -99,8 +120,8 @@ public class Customer {
 
 	}
 
-	// select all
-	public void readAll(Connection connection) {
+	// Select all
+	public void readAll() {
 		String selectSql = "SELECT * FROM equipment_rental.customer WHERE 1 = 1";
 		try {
 			stmt = connection.createStatement();
@@ -119,56 +140,56 @@ public class Customer {
 
 	}
 
-	// update
-		public void updateFirstname(String id, String firstname, Connection connection) {
-			String updateSQL = "UPDATE equipment_rental.customer SET id='" + getId() + "' WHERE id = " + id;
-			try {
-				stmt = connection.createStatement();
-				numOfRowsAffected = stmt.executeUpdate(updateSQL);
-				if (numOfRowsAffected == 1) {
-					JOptionPane.showMessageDialog(null, "Customer record has been updated", "Customer Update",
-							JOptionPane.INFORMATION_MESSAGE);
-				}
-			} catch (SQLException e) {
-				System.err.println("Error Updating: " + e.getMessage());
+	// Update Firstname
+	public void updateFirstname(String id, String firstname) {
+		String updateSQL = "UPDATE equipment_rental.customer SET id='" + firstname+ "' WHERE id = " + id;
+		try {
+			stmt = connection.createStatement();
+			numOfRowsAffected = stmt.executeUpdate(updateSQL);
+			if (numOfRowsAffected == 1) {
+				JOptionPane.showMessageDialog(null, "Customer record has been updated", "Customer Update",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
+		} catch (SQLException e) {
+			System.err.println("Error Updating: " + e.getMessage());
+		}
 
+	}
+	
+	// Update Lastname
+	public void updateLastname(String id, String lastname) {
+		String updateSQL = "UPDATE equipment_rental.customer SET id='" + lastname + "' WHERE id = " + id;
+		try {
+			stmt = connection.createStatement();
+			numOfRowsAffected = stmt.executeUpdate(updateSQL);
+			if (numOfRowsAffected == 1) {
+				JOptionPane.showMessageDialog(null, "Customer record has been updated", "Customer Update",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error Updating: " + e.getMessage());
+		}
+
+	}
+	
+	// Update
+	public void updateBalance(String id, float balance) {
+		String updateSQL = "UPDATE equipment_rental.customer SET id='" + getId() + "' WHERE id = " + id;
+		try {
+			stmt = connection.createStatement();
+			numOfRowsAffected = stmt.executeUpdate(updateSQL);
+			if (numOfRowsAffected == 1) {
+				JOptionPane.showMessageDialog(null, "Customer record has been updated", "Customer Update",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error Updating: " + e.getMessage());
 		}
 		
-		// update
-		public void updateLastname(String id, String lastname, Connection connection) {
-			String updateSQL = "UPDATE equipment_rental.customer SET id='" + getId() + "' WHERE id = " + id;
-			try {
-				stmt = connection.createStatement();
-				numOfRowsAffected = stmt.executeUpdate(updateSQL);
-				if (numOfRowsAffected == 1) {
-					JOptionPane.showMessageDialog(null, "Customer record has been updated", "Customer Update",
-							JOptionPane.INFORMATION_MESSAGE);
-				}
-			} catch (SQLException e) {
-				System.err.println("Error Updating: " + e.getMessage());
-			}
+	}
 
-		}
-		
-		// update
-		public void updateBalance(String id, float balance, Connection connection) {
-			String updateSQL = "UPDATE equipment_rental.customer SET id='" + getId() + "' WHERE id = " + id;
-			try {
-				stmt = connection.createStatement();
-				numOfRowsAffected = stmt.executeUpdate(updateSQL);
-				if (numOfRowsAffected == 1) {
-					JOptionPane.showMessageDialog(null, "Customer record has been updated", "Customer Update",
-							JOptionPane.INFORMATION_MESSAGE);
-				}
-			} catch (SQLException e) {
-				System.err.println("Error Updating: " + e.getMessage());
-			}
-			
-		}
-
-	// delete
-	public void delete(String id, Connection connection) {
+	// Delete
+	public void delete(String id) {
 		String deleteSQL = "DELETE FROM equipment_rental.customer WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();

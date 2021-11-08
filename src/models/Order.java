@@ -1,37 +1,39 @@
 package models;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 
 import javax.swing.JOptionPane;
+import dbconnection.DbConnect;
 
 public class Order {
 	private String id;
 	private String customerId;
 	private String employeeId;
+	private Status status;
 	private Date dateOfRental;
 	private Date dateOfReturn;
-	private String equipmentId;
+	
 	private Statement stmt = null;
 	private ResultSet result = null;
 	private int numOfRowsAffected = 0;
+	private Connection connection = DbConnect.getConnection();
 	
 	public Order() {
 		this.id = "";
 		this.customerId = "";
 		this.employeeId = "";
-		this.equipmentId = "";
-		this.dateOfRental = new Date(System.currentTimeMillis());
-		this.dateOfReturn = new Date(System.currentTimeMillis());
+		this.setStatus(null);
+		this.dateOfRental = null;
+		this.dateOfReturn = null;
 	}
 	
 	
-	public Order(String Orderid, String customerId, String employeeId, String equipmentId, Date dateOfRental, Date dateOfReturn) {
-		this.id = Orderid;
+	public Order(String id, String customerId, String employeeId, Status status, Date dateOfReturn) {
+		this.id = id;
 		this.customerId = customerId;
 		this.employeeId = employeeId;
-		this.equipmentId = equipmentId;
-		this.dateOfRental = dateOfRental;
+		this.setStatus(Status.PENDING);
+		this.dateOfRental = new Date(System.currentTimeMillis());
 		this.dateOfReturn = dateOfReturn;
 	}
 
@@ -75,21 +77,20 @@ public class Order {
 		this.dateOfReturn = dateOfReturn;
 	}
 
-	public String getEquipmentId() {
-		return equipmentId;
+	public Status getStatus() {
+		return status;
 	}
 
-	public void setEquipmentId(String equipmentId) {
-		this.equipmentId = equipmentId;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	// CRUD Operations
 
 	// create
-	public void create(Connection connection) {
+	public void create() {
 		String insertSql = "INSERT INTO equipment_rental.order VALUES ('" + getId() + "', '" + getCustomerId() + "','"
-				+ getEmployeeId() + "','" + getDateOfRental() + "','" + getDateOfReturn() + "','" + getEquipmentId()
-				+ "')";
+				+ getEmployeeId() + "','" + getDateOfRental() + "','" + getDateOfReturn() + "')";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(insertSql);
@@ -103,7 +104,7 @@ public class Order {
 	}
 
 	// select all
-	public void readAll(Connection connection) {
+	public void readAll() {
 		String selectSql = "SELECT * FROM equipment_rental.order WHERE 1 = 1";
 		try {
 			stmt = connection.createStatement();
@@ -114,11 +115,10 @@ public class Order {
 				String employeeId = result.getString("employee ID");
 				Date dateOfRental = result.getDate("dateOfRental");
 				Date dateOfReturn = result.getDate("date of return");
-				String equipmentId = result.getString("equipment ID");
+
 
 				System.out.println("ID: " + id + "\n\tCustomer ID: " + customerId + "\n\tEmployee ID: " + employeeId
-						+ "\n\tDate of Rental:" + dateOfRental + "\n\tDate of Rental:" + dateOfReturn
-						+ "\n\tEmployee ID:" + equipmentId);
+						+ "\n\tDate of Rental:" + dateOfRental + "\n\tDate of Rental:" + dateOfReturn);
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Selecting All: " + e.getMessage());
@@ -128,7 +128,7 @@ public class Order {
 
 	// update
 	public void update(String id, String customerId, String employeeId, String dateOfRental, String dateOfReturn,
-			String equipmentId, Connection connection) {
+			String equipmentId) {
 		String updateSQL = "UPDATE equipment_rental.order SET id='" + getId() + "' WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -144,7 +144,7 @@ public class Order {
 	}
 
 	// delete
-	public void delete(String id, Connection connection) {
+	public void delete(String id) {
 		String deleteSQL = "DELETE FROM equipment_rental.order WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -156,4 +156,7 @@ public class Order {
 			System.err.println("Error Deleting: " + e.getMessage());
 		}
 	}
+
+
+	
 }

@@ -7,8 +7,6 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import dbconnection.DbConnect;
 
@@ -18,31 +16,7 @@ public class Equipment {
 	private String category;
 	private double cost;
 	private String status;
-<<<<<<< HEAD:src/models/Equipment.java
-
-	public Equipment() {
-		super();
-		this.id = "";
-		this.name = "";
-		this.category = "";
-		this.cost = 0;
-		this.status = "Not Booked";
-=======
-	private static final Logger logger = LogManager.getLogger(Equipment.class);
 	
-	public String getEquip_id() {
-		return equip_id;
->>>>>>> 57b4c2e9875ce97b3b72ee65736d6c24d3f7fb3c:EquipmentRental/src/classes/Equipment.java
-	}
-	
-	public Equipment(String equip_id, String name, String category, double cost, String status) {
-		super();
-		this.id = equip_id;
-		this.name = name;
-		this.category = category;
-		this.cost = cost;
-		this.status = status;
-	}
 	
 	public String getId() {
 		return id;
@@ -98,20 +72,15 @@ public class Equipment {
 			Connection connection = DbConnect.getConnection();
 			Statement stat = connection.createStatement();
 			int numRowsAffected = stat.executeUpdate(insertSql);
-<<<<<<< HEAD:src/models/Equipment.java
-			if (numRowsAffected == 1) {
-				JOptionPane.showMessageDialog(null, "Equipment Record Created", "Message",
-						JOptionPane.INFORMATION_MESSAGE);
-=======
+
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Equipment Record Created", "Message", JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Equipment record created");
->>>>>>> 57b4c2e9875ce97b3b72ee65736d6c24d3f7fb3c:EquipmentRental/src/classes/Equipment.java
+				
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL Exception: " + e.getMessage());
-			logger.error("Equipment record not created, SQL Exception: "+e.getMessage());
+			
 		}
 	}
 
@@ -121,25 +90,15 @@ public class Equipment {
 			Connection connection = DbConnect.getConnection();
 			Statement stat = connection.createStatement();
 			int numRowsAffected = stat.executeUpdate(deleteSql);
-<<<<<<< HEAD:src/models/Equipment.java
-			if (numRowsAffected == 1) {
-				JOptionPane.showMessageDialog(null, "Equipment Record Deleted", "Message",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-		} catch (SQLException e) {
-			System.err.println("Delete error: " + e.getMessage());
-=======
+
 			if(numRowsAffected == 1)
 			{
-				JOptionPane.showMessageDialog(null, "Equipment Record Deleted", "Message", JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Equipment record deleted");
+				JOptionPane.showMessageDialog(null, "Equipment Record Deleted", "Message", 
+						JOptionPane.INFORMATION_MESSAGE);
 			}
-		}
-		catch(SQLException e)
-		{
-			System.err.println("Delete error: " +e.getMessage());
-			logger.error("Delete error, SQL Exception: " +e.getMessage());
->>>>>>> 57b4c2e9875ce97b3b72ee65736d6c24d3f7fb3c:EquipmentRental/src/classes/Equipment.java
+		}catch(SQLException e){
+			System.err.println(e.getMessage());
+			
 		}
 	}
 
@@ -159,17 +118,14 @@ public class Equipment {
 				System.out.println("ID: " + id + "\t\tName: " + name + "\t\tCategory: " + category + "\t\tCost: " + cost
 						+ "\t\tStatus: " + status);
 			}
-<<<<<<< HEAD:src/models/Equipment.java
-		} catch (SQLException e) {
-			System.err.println("SQL Exception: " + e.getMessage());
-=======
-			logger.info("Equipment records accessed");
+
+			
 		}
 		catch(SQLException e)
 		{
 			System.err.println("SQL Exception: " +e.getMessage());
-			logger.error("Error reading equipment records: " +e.getMessage());
->>>>>>> 57b4c2e9875ce97b3b72ee65736d6c24d3f7fb3c:EquipmentRental/src/classes/Equipment.java
+			
+
 		}
 	}
 
@@ -181,29 +137,21 @@ public class Equipment {
 			Connection connection = DbConnect.getConnection();
 			Statement stat = connection.createStatement();
 			int numRowsAffected = stat.executeUpdate(updateSql);
-<<<<<<< HEAD:src/models/Equipment.java
-			if (numRowsAffected == 1) {
-				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-		} catch (SQLException e) {
-			System.err.println("Update error: " + e.getMessage());
-=======
+
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Equipment record updated");
+				
 			}
 		}
 		catch(SQLException e)
 		{
 			System.err.println("Update error: " +e.getMessage());
-			logger.error("Equipment record not updated: " +e.getMessage());
->>>>>>> 57b4c2e9875ce97b3b72ee65736d6c24d3f7fb3c:EquipmentRental/src/classes/Equipment.java
+			
 		}
 	}
 
-	public void readOne(String id) {
+	public void read(String id) {
 		String selectSql = "SELECT * FROM equipment_rental.equipment_table WHERE equipment_id = '" + id + "'";
 		try {
 			Connection connection = DbConnect.getConnection();
@@ -216,21 +164,15 @@ public class Equipment {
 			String name = result.getString("equipment_name");
 			double cost = result.getDouble("cost");
 			String status = result.getString("rental_status");
-<<<<<<< HEAD:src/models/Equipment.java
-			System.out.println("ID: " + id + "\t\tName: " + name + "\t\tCategory: " + category + "\t\tCost: " + cost
-					+ "\t\tStatus: " + status);
-		} catch (SQLException e) {
-			System.err.println("SQL Exception: " + e.getMessage());
-=======
+
 			System.out.println("ID: "+id+"\t\tName: "+name+"\t\tCategory: "+category+"\t\tCost: "+cost+"\t\tStatus: "+status);
 			
-			logger.info("Single equipement record read");
+			
 		}
 		catch(SQLException e)
 		{
 			System.err.println("SQL Exception: " +e.getMessage());
-			logger.error("Could not read equipment record: "+e.getMessage());
->>>>>>> 57b4c2e9875ce97b3b72ee65736d6c24d3f7fb3c:EquipmentRental/src/classes/Equipment.java
+			
 		}
 	}
 }
