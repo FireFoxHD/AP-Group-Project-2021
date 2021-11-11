@@ -70,6 +70,11 @@ public class employee {
 		textField_1.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Login");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//add button action here
+			}
+		});
 		btnNewButton.setBounds(331, 216, 85, 34);
 		frmCustomerLogin.getContentPane().add(btnNewButton);
 	}

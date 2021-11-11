@@ -53,6 +53,11 @@ public class customerOrderItem {
 		frmCustomerOrderItem.getContentPane().add(comboBox);
 		
 		JButton btnNewButton = new JButton("SUBMIT");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//add submit code
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton.setBounds(403, 380, 122, 51);
 		frmCustomerOrderItem.getContentPane().add(btnNewButton);

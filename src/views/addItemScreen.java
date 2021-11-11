@@ -78,6 +78,11 @@ public class addItemScreen {
 		frmAddItemScreen.getContentPane().add(comboBox_2);
 		
 		JButton btnNewButton = new JButton("Add Item");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//add code for adding
+			}
+		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnNewButton.setBounds(405, 371, 127, 54);
 		frmAddItemScreen.getContentPane().add(btnNewButton);
