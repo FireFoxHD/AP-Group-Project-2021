@@ -1,3 +1,5 @@
+package views;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -6,10 +8,10 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class guiTest {
+public class employee {
 
 	private JFrame frmCustomerLogin;
-	private JTextField txtIdHere;
+	private JTextField textField;
 	private JTextField textField_1;
 
 	/**
@@ -19,7 +21,7 @@ public class guiTest {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					guiTest window = new guiTest();
+					employee window = new employee();
 					window.frmCustomerLogin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -31,7 +33,7 @@ public class guiTest {
 	/**
 	 * Create the application.
 	 */
-	public guiTest() {
+	public employee() {
 		initialize();
 	}
 
@@ -40,29 +42,29 @@ public class guiTest {
 	 */
 	private void initialize() {
 		frmCustomerLogin = new JFrame();
-		frmCustomerLogin.setTitle("Customer Login");
+		frmCustomerLogin.setTitle("Employee Login");
 		frmCustomerLogin.setBounds(100, 100, 617, 426);
 		frmCustomerLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCustomerLogin.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Customer ID");
+		JLabel lblNewLabel = new JLabel("Staff ID");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(72, 136, 114, 26);
+		lblNewLabel.setBounds(118, 136, 68, 26);
 		frmCustomerLogin.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Password");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(72, 169, 114, 34);
+		lblNewLabel_1.setBounds(118, 172, 114, 34);
 		frmCustomerLogin.getContentPane().add(lblNewLabel_1);
 		
-		txtIdHere = new JTextField();
-		txtIdHere.setToolTipText("Enter ID here");
-		txtIdHere.setBounds(219, 130, 197, 36);
-		frmCustomerLogin.getContentPane().add(txtIdHere);
-		txtIdHere.setColumns(10);
+		textField = new JTextField();
+		textField.setToolTipText("Enter Id here");
+		textField.setBounds(219, 130, 197, 36);
+		frmCustomerLogin.getContentPane().add(textField);
+		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
-		textField_1.setToolTipText("Enter Password here.");
+		textField_1.setToolTipText("Enter password here.");
 		textField_1.setBounds(219, 172, 197, 34);
 		frmCustomerLogin.getContentPane().add(textField_1);
 		textField_1.setColumns(10);

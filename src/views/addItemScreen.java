@@ -1,3 +1,5 @@
+package views;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -45,13 +47,13 @@ public class addItemScreen {
 		frmAddItemScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAddItemScreen.getContentPane().setLayout(null);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "Lighting", "Sounds", "Recreation"}));
+		JComboBox<String> comboBox = new JComboBox<>();
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"", "Lighting", "Sounds", "Recreation"}));
 		comboBox.setBounds(405, 89, 202, 38);
 		frmAddItemScreen.getContentPane().add(comboBox);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"}));
+		JComboBox<String>comboBox_1 = new JComboBox<>();
+		comboBox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"}));
 		comboBox_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		comboBox_1.setBounds(405, 224, 40, 38);
 		frmAddItemScreen.getContentPane().add(comboBox_1);
@@ -71,7 +73,7 @@ public class addItemScreen {
 		lblNewLabel_2.setBounds(274, 155, 127, 38);
 		frmAddItemScreen.getContentPane().add(lblNewLabel_2);
 		
-		JComboBox comboBox_2 = new JComboBox();
+		JComboBox<String> comboBox_2 = new JComboBox<>();
 		comboBox_2.setBounds(405, 157, 202, 38);
 		frmAddItemScreen.getContentPane().add(comboBox_2);
 		

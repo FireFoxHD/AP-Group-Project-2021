@@ -1,15 +1,13 @@
+package views;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JComboBox;
-import java.awt.BorderLayout;
-import javax.swing.JCheckBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JTextArea;
 
 public class customerOrderItem {
 
@@ -48,9 +46,9 @@ public class customerOrderItem {
 		frmCustomerOrderItem.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCustomerOrderItem.getContentPane().setLayout(null);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Speaker", "Bounce-About", "Lights", "Trampoline", "Popcorn Machine"}));
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Speaker", "Bounce-About", "Lights", "Trampoline", "Popcorn Machine"}));
 		comboBox.setBounds(295, 79, 311, 32);
 		frmCustomerOrderItem.getContentPane().add(comboBox);
 		
