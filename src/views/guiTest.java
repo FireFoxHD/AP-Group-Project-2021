@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -73,6 +75,7 @@ public class guiTest {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//add action here
+				JOptionPane.showMessageDialog(btnNewButton, "Login sucessful", "Action", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnNewButton.setBounds(331, 216, 85, 34);
