@@ -4,6 +4,9 @@ import java.sql.*;
 
 import javax.swing.JOptionPane;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import dbconnection.DbConnect;
 
 public class Employee {
@@ -17,6 +20,7 @@ public class Employee {
 	private ResultSet result = null;
 	private int numOfRowsAffected = 0;
 	private Connection connection = DbConnect.getConnection();
+	private static final Logger logger = LogManager.getLogger(Employee.class);
 	
 	public Employee() {
 		this.id = "";
@@ -92,12 +96,14 @@ public class Employee {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Employee record created", "Employee Creation",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Employee Record Created");
 			}
 			
 			createPassword(getId(), getPassword());
 			
 		} catch (SQLException e) {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
+			logger.error("Could Not Create Employee Record: "+e.getMessage());
 		}
 
 	}
@@ -111,9 +117,11 @@ public class Employee {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Password entry created", "Password Creation",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Password Updated For Employee " +getId());
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
+			logger.error("Unable To Update Password For Employee " +getId()+"\n"+e.getMessage());
 		}
 
 	}
@@ -128,13 +136,14 @@ public class Employee {
 				String id = result.getString("id");
 				String firstname = result.getString("firstname");
 				String lastname = result.getString("lastname");
-				String password = result.getString("password");
 				String role = result.getString("role");
 
-				System.out.println("ID: " + id + "\tPass: "+ password +"\tName: " + firstname+" "+lastname+"\tRole: "+role);
+				System.out.println("ID: " + id +"\tName: " + firstname+" "+lastname+"\tRole: "+role);
+				logger.info("Employee Record Accessed For " +getId());
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Selecting All: " + e.getMessage());
+			logger.error("Unable To Read Employee Record For "+getId()+ "\n" +e.getMessage());
 		}
 
 	}
@@ -154,8 +163,10 @@ public class Employee {
 
 				System.out.println("ID: " + id + "\tPass: "+ password +"\tName: " + firstname+" "+lastname+"\tRole: "+role);
 			}
+			logger.info("Employee Records Accessed");
 		} catch (SQLException e) {
 			System.err.println("Error Selecting All: " + e.getMessage());
+			logger.error("Could Not Access Employee Records, "+e.getMessage());
 		}
 
 	}
@@ -169,9 +180,11 @@ public class Employee {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Employee record has been updated", "Employee Update",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Employee Record "+getId()+ "Updated");
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Updating: " + e.getMessage());
+			logger.error("Could Not Update Employee Record "+getId()+"\n"+e.getMessage());
 		}
 
 	}
@@ -185,9 +198,11 @@ public class Employee {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Employee record has been updated", "Employee Update",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Role Updated For Employee "+getId());
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Updating: " + e.getMessage());
+			logger.error("Could Not Update Role For Employee Record "+getId()+"\n"+e.getMessage());
 		}
 
 	}
@@ -201,9 +216,11 @@ public class Employee {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Employee record deleted", "Employee Delete",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Employee Record"+getId()+"Deleted");
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Deleting: " + e.getMessage());
+			logger.error("Could Not Delete Employee Record "+getId()+"\n"+e.getMessage());
 		}
 	}
 

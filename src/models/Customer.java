@@ -7,6 +7,9 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import dbconnection.DbConnect;
 
 public class Customer {
@@ -20,6 +23,7 @@ public class Customer {
 	private ResultSet result = null;
 	private int numOfRowsAffected = 0;
 	private Connection connection = DbConnect.getConnection();
+	private static final Logger logger = LogManager.getLogger(Customer.class);
 	
 	public Customer() {
 		this.id = "";
@@ -94,12 +98,14 @@ public class Customer {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Customer created", "Customer Creation",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Customer Record Created");
 			}
 			
 			createPassword(getId(), getPassword());
 			
 		} catch (SQLException e) {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
+			logger.error("SQL Error, Customer Record Not Created: " +e.getMessage());
 		}
 
 	}
@@ -113,9 +119,11 @@ public class Customer {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Password entry created", "Password Creation",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Passowrd Updated For Customer " +getId());
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
+			logger.error("Password Not Created for User "+getId()+"\nSQL Exception: "+e.getMessage());
 		}
 
 	}
@@ -134,8 +142,10 @@ public class Customer {
 
 				System.out.println("ID: " + id + "\tName: " + firstname + " " + lastname + "\tBalance:" + balance);
 			}
+			logger.info("Customer Records Accessed");
 		} catch (SQLException e) {
 			System.err.println("Error Selecting All: " + e.getMessage());
+			logger.error("Could Not Read Customer Records: " +e.getMessage());
 		}
 
 	}
@@ -149,9 +159,11 @@ public class Customer {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Customer record has been updated", "Customer Update",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("First Name Updated For Customer " +getId());
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Updating: " + e.getMessage());
+			logger.error("Error Updating First Name For Customer Record " +getId()+"\n"+e.getMessage());
 		}
 
 	}
@@ -165,9 +177,11 @@ public class Customer {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Customer record has been updated", "Customer Update",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Last Name Updated For Customer " +getId());
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Updating: " + e.getMessage());
+			logger.error("Error Updating Last Name For Customer Record " +getId()+"\n"+e.getMessage());
 		}
 
 	}
@@ -181,9 +195,11 @@ public class Customer {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Customer record has been updated", "Customer Update",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Balance Updated For Customer " +getId());
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Updating: " + e.getMessage());
+			logger.error("Error Updating Balance For Customer Record " +getId()+"\n"+e.getMessage());
 		}
 		
 	}
@@ -197,9 +213,11 @@ public class Customer {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Customer record deleted", "Customer Delete",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Customer Record "+getId()+" Was Deleted");
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Deleting: " + e.getMessage());
+			logger.error("Error Deleting Customer Record " +getId()+"\n"+e.getMessage());
 		}
 	}
 }

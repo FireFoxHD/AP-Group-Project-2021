@@ -3,6 +3,10 @@ package models;
 import java.sql.*;
 
 import javax.swing.JOptionPane;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import dbconnection.DbConnect;
 
 public class Order {
@@ -17,6 +21,7 @@ public class Order {
 	private ResultSet result = null;
 	private int numOfRowsAffected = 0;
 	private Connection connection = DbConnect.getConnection();
+	private static final Logger logger = LogManager.getLogger(Order.class);
 	
 	public Order() {
 		this.id = "";
@@ -96,9 +101,11 @@ public class Order {
 			numOfRowsAffected = stmt.executeUpdate(insertSql);
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Order created", "Order Creation", JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Order Record "+getId()+" Created");
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
+			logger.error("Unable To Create Order Record "+getId()+", "+e.getMessage());
 		}
 
 	}
@@ -120,8 +127,10 @@ public class Order {
 				System.out.println("ID: " + id + "\n\tCustomer ID: " + customerId + "\n\tEmployee ID: " + employeeId
 						+ "\n\tDate of Rental:" + dateOfRental + "\n\tDate of Rental:" + dateOfReturn);
 			}
+			logger.info("Order Records Accessed");
 		} catch (SQLException e) {
 			System.err.println("Error Selecting All: " + e.getMessage());
+			logger.error("Unable To Access Order Records, "+e.getMessage());
 		}
 
 	}
@@ -136,9 +145,11 @@ public class Order {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Order has been updated", "Order Update",
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Order Record "+getId()+" Updated");
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Updating: " + e.getMessage());
+			logger.error("Unable To Update Order Record "+getId()+", "+e.getMessage());
 		}
 
 	}
@@ -151,9 +162,11 @@ public class Order {
 			numOfRowsAffected = stmt.executeUpdate(deleteSQL);
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Order deleted", "Order Delete", JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Order Record "+getId()+" Deleted");
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Deleting: " + e.getMessage());
+			logger.error("Unable To Delete Order Record "+getId()+", "+e.getMessage());
 		}
 	}
 

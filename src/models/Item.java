@@ -7,6 +7,9 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import dbconnection.DbConnect;
 
 public class Item {
@@ -16,6 +19,8 @@ public class Item {
 	private String category;
 	private int numInStock;
 	private Connection connection = DbConnect.getConnection();
+	
+	private static final Logger logger = LogManager.getLogger(Item.class);
 	
 	public Item() {
 		this.id = "";
@@ -91,11 +96,11 @@ public class Item {
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Equipment Record Created", "Message", JOptionPane.INFORMATION_MESSAGE);
-				
+				logger.info("Item Record "+getId()+  " Created");
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL Exception: " + e.getMessage());
-			
+			logger.error("Could Not Create Item Record "+getId()+ ", "+e.getMessage());
 		}
 	}
 
@@ -114,12 +119,13 @@ public class Item {
 
 			System.out.println("ID: "+id+"\t\tName: "+name+"\t\tCategory: "+category+"\t\tCost: "+cost+"\t\tStatus: "+status);
 			
+			logger.info("Item Record "+getId()+" Accessed");
 			
 		}
 		catch(SQLException e)
 		{
 			System.err.println("SQL Exception: " +e.getMessage());
-			
+			logger.error("Could Not Access Item Record," +getId()+"\n"+e.getMessage());
 		}
 	}
 	
@@ -138,14 +144,12 @@ public class Item {
 				System.out.println("ID: " + id + "\t\tName: " + name + "\t\tCategory: " + category + "\t\tCost: " + cost
 						+ "\t\tStatus: " + status);
 			}
-
-			
+			logger.info("Item Records Accessed");
 		}
 		catch(SQLException e)
 		{
 			System.err.println("SQL Exception: " +e.getMessage());
-			
-
+			logger.error("Could Not Access Item Records, "+e.getMessage());
 		}
 	}
 
@@ -160,13 +164,13 @@ public class Item {
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				
+				logger.info("Item Record"+getId()+" Updated");
 			}
 		}
 		catch(SQLException e)
 		{
 			System.err.println("Update error: " +e.getMessage());
-			
+			logger.error("Error Updating Item Record "+getId()+", "+e.getMessage());
 		}
 	}
 
@@ -179,13 +183,13 @@ public class Item {
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				
+				logger.info("Name For Item Record "+getId()+ " Updated");
 			}
 		}
 		catch(SQLException e)
 		{
 			System.err.println("Update error: " +e.getMessage());
-			
+			logger.error("Unable To Update Name For Item " +getId()+", "+e.getMessage());
 		}
 	}
 	
@@ -198,13 +202,13 @@ public class Item {
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				
+				logger.info("Cost Updated For Item Record" +getId());
 			}
 		}
 		catch(SQLException e)
 		{
 			System.err.println("Update error: " +e.getMessage());
-			
+			logger.error("Unable To Update Cost For Item Record "+getId()+"\n"+e.getMessage());
 		}
 	}
 
@@ -217,13 +221,13 @@ public class Item {
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				
+				logger.info("Stock Number Updated For Item Record " +getId());
 			}
 		}
 		catch(SQLException e)
 		{
 			System.err.println("Update error: " +e.getMessage());
-			
+			logger.error("Unable To Update Stock Number For Item Record "+getId()+", "+e.getMessage());
 		}
 	}
 
@@ -236,13 +240,13 @@ public class Item {
 			if(numRowsAffected == 1)
 			{
 				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				
+				logger.info("Category Updated For Item Record "+getId());
 			}
 		}
 		catch(SQLException e)
 		{
 			System.err.println("Update error: " +e.getMessage());
-			
+			logger.error("Unable Top Update Category For Item Record "+getId()+", "+e.getMessage());
 		}
 	}
 
@@ -256,10 +260,11 @@ public class Item {
 			{
 				JOptionPane.showMessageDialog(null, "Equipment Record Deleted", "Message", 
 						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Item Record "+getId()+" Deleted");
 			}
 		}catch(SQLException e){
 			System.err.println(e.getMessage());
-			
+			logger.error("Unable To Delete Item Record "+getId()+", "+e.getMessage());
 		}
 	}
 
