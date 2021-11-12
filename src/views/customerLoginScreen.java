@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class guiTest {
+public class customerLoginScreen {
 
 	private JFrame frmCustomerLogin;
 	private JTextField txtIdHere;
@@ -26,7 +26,7 @@ public class guiTest {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					guiTest window = new guiTest();
+					customerLoginScreen window = new customerLoginScreen();
 					window.frmCustomerLogin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +38,7 @@ public class guiTest {
 	/**
 	 * Create the application.
 	 */
-	public guiTest() {
+	public customerLoginScreen() {
 		initialize();
 	}
 
