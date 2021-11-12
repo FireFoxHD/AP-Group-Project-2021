@@ -1,55 +1,54 @@
 package client;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Client {
 	
-	private Socket connectionSocket;
-	private ObjectOutputStream objOs;
-	private ObjectInputStream objIs;
+	private static Socket connectionSocket;
+	private static ObjectOutputStream outStream;
+	private static ObjectInputStream inStream;
+	private static BufferedReader br;
 	
-	public Client(){
+	public static void main(String[] args) throws IOException{
+	
 		try{
 	    	connectionSocket = new Socket("127.0.0.1",8888);
-            this.objOs = new ObjectOutputStream(connectionSocket.getOutputStream());
-            this.objIs = new ObjectInputStream(connectionSocket.getInputStream());
+	    	outStream = new ObjectOutputStream(connectionSocket.getOutputStream());
+	    	inStream = new ObjectInputStream(connectionSocket.getInputStream());
+            br = new BufferedReader(new InputStreamReader(System.in));
         } catch (IOException e) {
             e.printStackTrace();
         }
+		
+		while(true) {
+			System.out.println("Enter action :");
+			String action = br.readLine();
+			outStream.writeUTF(action);
+			outStream.flush();
+			
+			String serverMessage = inStream.readUTF();
+			System.out.println(serverMessage);
+		}
+		//closeConnection();
 	        
 	}
 	  
-    public void closeConnection(){
+    public static void closeConnection(){
         try{
-            objOs.close();
-            objIs.close();
+        	outStream.close();
+        	inStream.close();
             connectionSocket.close();
         }catch (IOException e){
             e.printStackTrace();
         }
     }
-	    
-    public void sendAction(String action) {
-    	try {
-    		objOs.writeObject(action);
-    	}catch (IOException e) {
-    		e.printStackTrace(); 
-    	} 
-    }
-    
-    public void response(String action) {
-    	String response = "";
-    	try {
-    		response = (String) objIs.readObject();
-    	}catch (IOException | ClassNotFoundException e) {
-    		e.printStackTrace(); 
-    	}
-    	
-    	System.out.println("[SERVER - response] "+ response);
-    }
-	    
+	   
 	    
 }

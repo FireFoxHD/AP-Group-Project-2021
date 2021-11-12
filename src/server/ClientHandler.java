@@ -1,11 +1,13 @@
 package server;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable{
+public class ClientHandler extends Thread{
 
 	private Socket client;
 	private ObjectOutputStream objOs;
@@ -26,32 +28,40 @@ public class ClientHandler implements Runnable{
 		}
 	}
 
-	@Override
 	public void run() {
 		try {
 			while(true){
-				String action = (String) objIs.readObject();
+				String action = (String) objIs.readUTF();
 				System.out.println("Action: "+ action);
 				
 				if(action.equalsIgnoreCase("test")) {
-					objOs.writeObject("test action recieved");
+					objOs.writeUTF("test action recieved");
 				}else {
-					objOs.writeObject("Not test");
+					objOs.writeUTF("Not test");
 				}
+				
+				objOs.flush();
+				
 			}
-		}catch(IOException | ClassNotFoundException e) {
+		}catch(IOException e) {
 			System.err.println("Issue running in Client handler");
 			e.printStackTrace();
-		} finally {
-			this.closeConnection();
 		}
 		
+		this.closeConnection();
 	}
 	
 	private void closeConnection(){
 		try{
-			objOs.close();
-			objIs.close();
+			if(objOs != null) {
+				objOs.close();
+			}
+			
+			if(objIs != null) {
+				objIs.close();
+				client.close();
+			}
+			
 		}catch (IOException e){
 			e.printStackTrace();
 		}
