@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -17,26 +18,29 @@ import models.Status;
 
 public class OrderController {
 	
-	private Statement stmt;
-	private ResultSet result;
-	private int numOfRowsAffected;
-	private Connection connection;
+	private static Statement stmt;
+	private static ResultSet result;
+	private static int numOfRowsAffected;
+	private static Connection connection;
 	private static final Logger logger = LogManager.getLogger(Order.class);
 	
 	public OrderController() {
-		this.stmt = null;
-    	this.result = null;
-    	this.numOfRowsAffected = 0;
-    	this.connection = DbConnect.getConnection();
+		OrderController.stmt = null;
+    	OrderController.result = null;
+    	OrderController.numOfRowsAffected = 0;
+    	OrderController.connection = DbConnect.getConnection();
 	}
 	// CRUD Operations
 
 	// create
-	public void create(String id, String custId, String empId, Status status, Date dateOfReturn) {
+	
+	//TODO think about adding an calling the itemcontroller create and passing it items to create an entry in the orderItems table
+	public void create(String id, String custId, String empId, Date dateOfReturn) {
 		Date dateOfRental = new Date(System.currentTimeMillis());
+		Status status = models.Status.PENDING;
 		
-		String insertSql = "INSERT INTO equipment_rental.order VALUES ('" + id + "', '" + custId + "','"
-				+ empId + "','" + status.name()+ "','" + dateOfRental + "','" + dateOfReturn + "')";
+		String insertSql = "INSERT INTO grizzlydb.order VALUES ('" + id + "', '" + custId + "','"
+				+ empId + "','" + status.toString()+ "','" + dateOfRental + "','" + dateOfReturn + "')";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(insertSql);
@@ -51,9 +55,37 @@ public class OrderController {
 
 	}
 
+	// select 
+	public static Order read(String id) {
+		String selectSql = "SELECT * FROM equipment_rental.order WHERE id ='" + id + "'";
+		Order order = null;
+		try {
+			stmt = connection.createStatement();
+			result = stmt.executeQuery(selectSql);
+			result.next();
+			String customerId = result.getString("custId");
+			String employeeId = result.getString("empId");
+			Status status = models.Status.valueOf(result.getString("Status"));
+			Date dateOfRental = result.getDate("dateOfRental");
+			Date dateOfReturn = result.getDate("dateOfReturn");
+
+			order = new Order(id, customerId, employeeId, status, dateOfRental, dateOfReturn);
+			
+			System.out.println("ID: " + id + "\n\tCustomer ID: " + customerId + "\n\tEmployee ID: " + employeeId
+					+ "\n\tDate of Rental:" + dateOfRental + "\n\tDate of Rental:" + dateOfReturn);
+			
+			logger.info("Order Records Accessed");
+		} catch (SQLException e) {
+			System.err.println("Error Selecting All: " + e.getMessage());
+			logger.error("Unable To Access Order Records, "+e.getMessage());
+		}
+		return order;
+	}
+	
 	// select all
-	public void readAll() {
-		String selectSql = "SELECT * FROM equipment_rental.order WHERE 1 = 1";
+	public static ArrayList<Order> readAll() {
+		String selectSql = "SELECT * FROM grizzlydb.order WHERE id = 1";
+		ArrayList<Order> orders = new ArrayList<>();
 		try {
 			stmt = connection.createStatement();
 			result = stmt.executeQuery(selectSql);
@@ -61,11 +93,11 @@ public class OrderController {
 				String id = result.getString("id");
 				String customerId = result.getString("custId");
 				String employeeId = result.getString("empId");
-				String Status = result.getString("Status");
+				Status status = models.Status.valueOf(result.getString("Status"));
 				Date dateOfRental = result.getDate("dateOfRental");
 				Date dateOfReturn = result.getDate("dateOfReturn");
 
-
+				orders.add(new Order(id, customerId, employeeId, status, dateOfRental, dateOfReturn));
 				System.out.println("ID: " + id + "\n\tCustomer ID: " + customerId + "\n\tEmployee ID: " + employeeId
 						+ "\n\tDate of Rental:" + dateOfRental + "\n\tDate of Rental:" + dateOfReturn);
 			}
@@ -74,13 +106,13 @@ public class OrderController {
 			System.err.println("Error Selecting All: " + e.getMessage());
 			logger.error("Unable To Access Order Records, "+e.getMessage());
 		}
-
+		return orders;
 	}
 
 	// update 
-	//TODO complete updateALl
+	//TODO complete updateAll
 	public void update(String id, String customerId, String employeeId, Status status, Date dateOfReturn) {
-		String updateSQL = "UPDATE equipment_rental.order SET id='" + id + "',empId = '"+employeeId+"', WHERE id = '" + id+"'";
+		String updateSQL = "UPDATE grizzlydb.order SET id='" + id + "',empId = '"+employeeId+"', WHERE id = '" + id+"'";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(updateSQL);
@@ -98,7 +130,7 @@ public class OrderController {
 
 	// delete
 	public void delete(String id) {
-		String deleteSQL = "DELETE FROM equipment_rental.order WHERE id = " + id;
+		String deleteSQL = "DELETE FROM grizzlydb.order WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(deleteSQL);

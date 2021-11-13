@@ -117,7 +117,7 @@ public class CustomerController {
 	
 	// Delete
 	public void delete(String id) {
-		String deleteSQL = "DELETE FROM equipment_rental.customer WHERE id = " + id;
+		String deleteSQL = "DELETE FROM grizzlydb.customer WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(deleteSQL);

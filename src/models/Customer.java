@@ -1,22 +1,10 @@
 package models;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.swing.JOptionPane;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import dbconnection.DbConnect;
 
 public class Customer {
 	private String id;
 	private String firstname;
 	private String lastname;
-	private String password;
 	private double balance;
 	
 	
@@ -24,7 +12,6 @@ public class Customer {
 		this.id = "";
 		this.firstname = "";
 		this.lastname = "";
-		this.password = "";
 		this.balance = 0.0;
 	}
 	
@@ -32,7 +19,6 @@ public class Customer {
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.password = pass;
 		this.balance = bal;
 	}
 
@@ -59,14 +45,6 @@ public class Customer {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-	
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public double getBalance() {
 		return balance;
@@ -78,10 +56,8 @@ public class Customer {
 	
 	@Override
 	public String toString() {
-		return "ID: " + this.id + "\tName: " + this.firstname +" "+this.lastname + "\t pass: "+ this.password + "\t bal: "+ this.balance;
+		return "ID: " + this.id + "\tName: " + this.firstname +" "+this.lastname + "\t bal: "+ this.balance;
 	}
-
-	// CRUD Operations
 
 	
 }

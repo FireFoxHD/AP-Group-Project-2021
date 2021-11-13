@@ -1,5 +1,9 @@
 package controllers;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,6 +34,7 @@ public class PasswordController {
 	
 	// Create Password
 	public static void createPassword(String id, String password) {
+		password = encryptPassword(password);
 		String insertSql = "INSERT INTO grizzlydb.hash VALUES ('" + id + "', '" + password+"')";
 		try {
 			stmt = connection.createStatement();
@@ -46,9 +51,111 @@ public class PasswordController {
 	
 	}
 	
-	//TODO update password 
+	// Read Password
+	public static String readHash(String id) {
+		String selectSql = "SELECT * FROM grizzlydb.hash WHERE id = '" + id + "'";
+		String password = "";
+		try {
+			stmt = connection.createStatement();
+			result = stmt.executeQuery(selectSql);
+			result.next();
+			password = result.getString("hash");
+			logger.info("Password Retrived "+id+" Accessed");
+			
+		}
+		catch(SQLException e)
+		{
+			System.err.println("SQL Exception: " +e.getMessage());
+			logger.error("Could Not Access Item Record," +id+"\n"+e.getMessage());
+		}
+		return password;
+	}
 	
-	//TODO delete password
+	// Update Password
+	public static void update(String id,  String password) {
+		password = encryptPassword(password);
+		String updateSql = "UPDATE grizzlydb.hash SET hash='" + password + "' WHERE id = '" + id + "'";
+		try {
+			stmt = connection.createStatement();
+			numOfRowsAffected = stmt.executeUpdate(updateSql);
+
+			if(numOfRowsAffected == 1)
+			{
+				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Name For Item Record "+id+ " Updated");
+			}
+		}
+		catch(SQLException e)
+		{
+			System.err.println("Update error: " +e.getMessage());
+			logger.error("Unable To Update Name For Item " +id+", "+e.getMessage());
+		}
+	}
 	
-	//TODO read hash
+	// Delete Password
+	public static void Delete(String id) {
+		String deleteSql = "DELETE FROM grizzlydb.hash WHERE id = " + id;
+		try {
+			stmt = connection.createStatement();
+			numOfRowsAffected = stmt.executeUpdate(deleteSql);
+
+			if(numOfRowsAffected == 1)
+			{
+				JOptionPane.showMessageDialog(null, "Equipment Record Deleted", "Message", 
+						JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Item Record "+id+" Deleted");
+			}
+		}catch(SQLException e){
+			System.err.println(e.getMessage());
+			logger.error("Unable To Delete Item Record "+id+", "+e.getMessage());
+		}
+	}
+	
+	// Validate password
+	public static Boolean Validate(String id, String pass) {
+		String hashFromDb = readHash(id);
+		String password = encryptPassword(pass);
+		if(hashFromDb.equals(password)) {
+			return true;
+		}else {
+			return false;
+		}	
+	}
+	
+	// Encrypt password
+	private static String encryptPassword(String passwordToHash) {
+			
+        	String generatedPassword = null;
+            try {
+            	String salt = getSalt();
+                MessageDigest md = MessageDigest.getInstance("SHA-512");
+                md.update(salt.getBytes());
+                byte[] bytes = md.digest(passwordToHash.getBytes());
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < bytes.length; i++) {
+                	//convert to HEX
+                    sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+                }
+                generatedPassword = sb.toString();
+            }catch (NoSuchAlgorithmException | NoSuchProviderException  e) {
+                e.printStackTrace();
+            }
+            return generatedPassword;
+    }
+
+    // Add salt
+    private static String getSalt() throws NoSuchAlgorithmException, NoSuchProviderException 
+    {
+        // Always use a SecureRandom generator
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
+
+        // Create array for salt
+        byte[] salt = new byte[16];
+
+        // Get a random salt
+        sr.nextBytes(salt);
+
+        // return salt
+        return salt.toString();
+    }
 }

@@ -4,22 +4,19 @@ public class Employee {
 	private String id;
 	private String firstname;
 	private String lastname;
-	private String password;
-	private String role;
+	private Role role;
 	
 	public Employee() {
 		this.id = "";
 		this.firstname = "";
 		this.lastname = "";
-		this.password = "";
-		this.role = "";
+		this.role = null;
 	}
 	
-	public Employee(String id, String firstname, String lastname, String pass, String role) {
+	public Employee(String id, String firstname, String lastname, Role role) {
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.password = pass;
 		this.role = role;
 	}
 
@@ -47,30 +44,19 @@ public class Employee {
 		this.lastname = lastname;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 	
 	@Override
 	public String toString() {
-		return "ID: " + this.id + "\tName: " + this.firstname +" "+this.lastname + "\t pass: "+ this.password + "\t Role: "+this.role;
+		return "ID: " + this.id + "\tName: " + this.firstname +" "+this.lastname + "\t Role: "+this.role.toString();
 		
 	}
-	
-
-	// CRUD operations
-
 	
 }

@@ -21,12 +21,21 @@ public class Order {
 	}
 	
 	
-	public Order(String id, String customerId, String employeeId, Status status, Date dateOfReturn) {
+	public Order(String id, String customerId, String employeeId, Date dateOfReturn) {
 		this.id = id;
 		this.customerId = customerId;
 		this.employeeId = employeeId;
 		this.setStatus(Status.PENDING);
 		this.dateOfRental = new Date(System.currentTimeMillis());
+		this.dateOfReturn = dateOfReturn;
+	}
+	
+	public Order(String id, String customerId, String employeeId, Status status, Date dateOfRental, Date dateOfReturn) {
+		this.id = id;
+		this.customerId = customerId;
+		this.employeeId = employeeId;
+		this.setStatus(status);
+		this.dateOfRental = dateOfRental;
 		this.dateOfReturn = dateOfReturn;
 	}
 

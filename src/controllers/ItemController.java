@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -45,19 +46,21 @@ public class ItemController {
 		}
 	}
 
-	public void read(String id) {
-		String selectSql = "SELECT * FROM equipment_rental.equipment_table WHERE equipment_id = '" + id + "'";
+	public Item read(String id) {
+		Item item = null;
+		String selectSql = "SELECT * FROM grizzlydb.item WHERE equipment_id = '" + id + "'";
 		try {
 			stmt = connection.createStatement();
 			result = stmt.executeQuery(selectSql);
 			result.next();
-			id = result.getString("equipment_id");
-			String category = result.getString("equipment_category");
-			String name = result.getString("equipment_name");
+			String category = result.getString("category");
+			String name = result.getString("name");
 			double cost = result.getDouble("cost");
-			String status = result.getString("rental_status");
-
-			System.out.println("ID: "+id+"\t\tName: "+name+"\t\tCategory: "+category+"\t\tCost: "+cost+"\t\tStatus: "+status);
+			int numInStock = result.getInt("quantityInStock");
+			
+            item = new Item(id,name,cost,category,numInStock);
+			System.out.println("ID: " + id + "\t\tName: " + name + "\t\tCategory: " + category + "\t\tCost: " + cost
+					+ "\t\numInStock: " + numInStock);
 			
 			logger.info("Item Record "+id+" Accessed");
 			
@@ -67,21 +70,25 @@ public class ItemController {
 			System.err.println("SQL Exception: " +e.getMessage());
 			logger.error("Could Not Access Item Record," +id+"\n"+e.getMessage());
 		}
+		return item;
 	}
 	
-	public void readAll() {
-		String selectSql = "SELECT * FROM equipment_rental.equipment_table WHERE 1=1";
+	public ArrayList<Item> readAll() {
+		ArrayList<Item> items = new ArrayList<Item>();
+		String selectSql = "SELECT * FROM grizzlydb.item WHERE 1=1";
 		try {
 			stmt = connection.createStatement();
 			result = stmt.executeQuery(selectSql);
 			while (result.next()) {
-				String id = result.getString("equipment_id");
-				String category = result.getString("equipment_category");
-				String name = result.getString("equipment_name");
+				String id = result.getString("id");
+				String category = result.getString("category");
+				String name = result.getString("name");
 				double cost = result.getDouble("cost");
-				String status = result.getString("rental_status");
+				int numInStock = result.getInt("quantityInStock");
+				items.add(new Item(id,name,cost,category,numInStock));
+				
 				System.out.println("ID: " + id + "\t\tName: " + name + "\t\tCategory: " + category + "\t\tCost: " + cost
-						+ "\t\tStatus: " + status);
+						+ "\t\numInStock: " + numInStock);
 			}
 			logger.info("Item Records Accessed");
 		}
@@ -90,12 +97,13 @@ public class ItemController {
 			System.err.println("SQL Exception: " +e.getMessage());
 			logger.error("Could Not Access Item Records, "+e.getMessage());
 		}
+		return items;
 	}
 
-	public void updateAll(String id,  String name, double cost, String category, int numInStock) {
-		String updateSql = "UPDATE equipment_rental.equipment_table SET equipment_category = '" + category
-				+ "', equipment_name='" + name + "', cost = '" + cost + "', rental_status = '" + numInStock
-				+ "' WHERE equipment_id = '" + id + "'";
+	public void update(String id,  String name, double cost, String category, int numInStock) {
+		String updateSql = "UPDATE grizzlydb.item SET category = '" + category+ "',"
+				+ " name='" + name + "', cost = '" + cost + "', quantityInStock = '" + numInStock
+				+ "' WHERE id = '" + id + "'";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(updateSql);
@@ -113,65 +121,8 @@ public class ItemController {
 		}
 	}
 
-	public void updateName(String id,  String name) {
-		String updateSql = "UPDATE equipment_rental.equipment_table SET equipment_name='" + name + "' WHERE equipment_id = '" + id + "'";
-		try {
-			stmt = connection.createStatement();
-			numOfRowsAffected = stmt.executeUpdate(updateSql);
-
-			if(numOfRowsAffected == 1)
-			{
-				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Name For Item Record "+id+ " Updated");
-			}
-		}
-		catch(SQLException e)
-		{
-			System.err.println("Update error: " +e.getMessage());
-			logger.error("Unable To Update Name For Item " +id+", "+e.getMessage());
-		}
-	}
-	
-	public void updateCost(String id,  double cost) {
-		String updateSql = "UPDATE equipment_rental.equipment_table SET cost='" + cost + "' WHERE equipment_id = '" + id + "'";
-		try {
-			stmt = connection.createStatement();
-			numOfRowsAffected = stmt.executeUpdate(updateSql);
-
-			if(numOfRowsAffected == 1)
-			{
-				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Cost Updated For Item Record" +id);
-			}
-		}
-		catch(SQLException e)
-		{
-			System.err.println("Update error: " +e.getMessage());
-			logger.error("Unable To Update Cost For Item Record "+id+"\n"+e.getMessage());
-		}
-	}
-
-	public void updateStock(String id,  int numInStock) {
-		String updateSql = "UPDATE equipment_rental.equipment_table SET quantityInStock='" + numInStock + "' WHERE equipment_id = '" + id + "'";
-		try {
-			stmt = connection.createStatement();
-			int numOfRowsAffected = stmt.executeUpdate(updateSql);
-
-			if(numOfRowsAffected == 1)
-			{
-				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Stock Number Updated For Item Record " +id);
-			}
-		}
-		catch(SQLException e)
-		{
-			System.err.println("Update error: " +e.getMessage());
-			logger.error("Unable To Update Stock Number For Item Record "+id+", "+e.getMessage());
-		}
-	}
-
 	public void updateCategory(String id,  String category) {
-		String updateSql = "UPDATE equipment_rental.equipment_table SET category='" + category + "' WHERE equipment_id = '" + id + "'";
+		String updateSql = "UPDATE grizzlydb.item SET category='" + category + "' WHERE equipment_id = '" + id + "'";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(updateSql);
