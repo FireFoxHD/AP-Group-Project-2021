@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import controllers.CustomerController;
+
 public class ClientHandler extends Thread{
 
 	private Socket client;
@@ -34,10 +36,29 @@ public class ClientHandler extends Thread{
 				String action = (String) objIs.readUTF();
 				System.out.println("Action: "+ action);
 				
+				if(action.equalsIgnoreCase("add customer")) {
+					objOs.writeUTF("Enter ID: ");
+					//objOs.flush();
+					String id = (String) objIs.readUTF();
+					
+					objOs.writeUTF("Enter firstname: ");
+					//objOs.flush();
+					String firstname = (String) objIs.readUTF();
+					
+					objOs.writeUTF("Enter lastname: ");
+					//objOs.flush();
+					String lastname = (String) objIs.readUTF();
+					
+					objOs.writeUTF("Enter pass: ");
+					//objOs.flush();
+					String pass = (String) objIs.readUTF();
+					
+					System.out.println("Creating...");
+					CustomerController.create(id, firstname, lastname, pass);
+				}
+				
 				if(action.equalsIgnoreCase("test")) {
 					objOs.writeUTF("test action recieved");
-				}else {
-					objOs.writeUTF("Not test");
 				}
 				
 				objOs.flush();

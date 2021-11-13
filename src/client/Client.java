@@ -15,9 +15,13 @@ public class Client {
 	private static ObjectOutputStream outStream;
 	private static ObjectInputStream inStream;
 	private static BufferedReader br;
+	private static String action = null;
+	
+	private Client(){
+		action = null;
+	}
 	
 	public static void main(String[] args) throws IOException{
-	
 		try{
 	    	connectionSocket = new Socket("127.0.0.1",8888);
 	    	outStream = new ObjectOutputStream(connectionSocket.getOutputStream());
@@ -28,19 +32,21 @@ public class Client {
         }
 		
 		while(true) {
-			System.out.println("Enter action :");
-			String action = br.readLine();
-			outStream.writeUTF(action);
-			outStream.flush();
+			if (action == null) {
+				System.out.println("Enter action :");
+				action = br.readLine();
+				outStream.flush();
+			}
 			
 			String serverMessage = inStream.readUTF();
-			System.out.println(serverMessage);
+			System.out.println("[SERVER] "+serverMessage);
 		}
 		//closeConnection();
 	        
 	}
 	  
-    public static void closeConnection(){
+
+	public static void closeConnection(){
         try{
         	outStream.close();
         	inStream.close();
