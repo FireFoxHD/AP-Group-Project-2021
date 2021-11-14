@@ -14,6 +14,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSplitPane;
+import javax.swing.JPanel;
 
 public class customerUpdate {
 
@@ -131,15 +132,14 @@ public class customerUpdate {
 		btnDelete.setBounds(316, 369, 111, 35);
 		frmUpdateCustomerRecord.getContentPane().add(btnDelete);
 		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(821, 103, 17, 201);
-		frmUpdateCustomerRecord.getContentPane().add(scrollBar);
+		JPanel panel = new JPanel();
+		panel.setBounds(476, 103, 421, 301);
+		frmUpdateCustomerRecord.getContentPane().add(panel);
 		
 		table = new JTable();
-		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		table.setFont(new Font("Tahoma", Font.BOLD, 16));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
+				{"ID", "First Name", "Last Name", "Balance"},
 				{null, null, null, null},
 				{null, null, null, null},
 				{null, null, null, null},
@@ -150,20 +150,21 @@ public class customerUpdate {
 				{null, null, null, null},
 			},
 			new String[] {
-				"Customer Id", "First Name", "Last Name", "Balance"
+				"ID", "First Name", "Last Name", "Balance"
 			}
 		));
-		table.setBounds(821, 307, -394, -203);
-		frmUpdateCustomerRecord.getContentPane().add(table);
+		panel.add(table);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		panel.add(scrollBar);
 		
 		JButton btnViewAll = new JButton("View All");
+		panel.add(btnViewAll);
 		btnViewAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		btnViewAll.setToolTipText("Displays all records.");
 		btnViewAll.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnViewAll.setBounds(727, 369, 111, 35);
-		frmUpdateCustomerRecord.getContentPane().add(btnViewAll);
 	}
 }
