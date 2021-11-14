@@ -111,7 +111,7 @@ public class OrderController {
 
 	// update 
 	//TODO complete updateAll
-	public void update(String id, String employeeId, Status status, Date dateOfReturn) {
+	public static void update(String id, String employeeId, Status status, Date dateOfReturn) {
 		String updateSQL = "UPDATE grizzlydb.order SET id='" + id + "',empId = '"+employeeId+"', WHERE id = '" + id+"'";
 		try {
 			stmt = connection.createStatement();
@@ -129,7 +129,7 @@ public class OrderController {
 	}
 
 	// delete
-	public void delete(String id) {
+	public static void delete(String id) {
 		String deleteSQL = "DELETE FROM grizzlydb.order WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
