@@ -104,7 +104,7 @@ public class CustomerController {
 	}
 
 	// Update all (except password)
-	public void update(String id, String firstname, String lastname, double bal) {
+	public static void update(String id, String firstname, String lastname, double bal) {
 		String updateSQL = "UPDATE grizzlydb.customer SET id='" + firstname+ "' WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -122,7 +122,7 @@ public class CustomerController {
 	}
 	
 	// Update Balance
-	public void updateBalance(String id, float balance) {
+	public static void updateBalance(String id, float balance) {
 		String updateSQL = "UPDATE grizzlydb.customer SET id='" + id + "' WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -141,7 +141,7 @@ public class CustomerController {
 
 	
 	// Delete
-	public void delete(String id) {
+	public static void delete(String id) {
 		String deleteSQL = "DELETE FROM grizzlydb.customer WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();

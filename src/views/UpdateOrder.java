@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
 
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
@@ -29,6 +30,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -217,17 +219,39 @@ public class UpdateOrder {
 					employeeTextField.setText(order.getEmployeeId());
 					statusComboBox.setSelectedItem(order.getStatus());
 					
-					//TODO not working as expected
-					LocalDate date = order.getDateOfReturn().toLocalDate();
-					monthComboBox.setSelectedIndex(date.getMonthValue()-1);
-					dayComboBox.setSelectedItem(date.getDayOfMonth());
-					yearComboBox.setSelectedItem(date.getDayOfYear());
 					
+					String[] date = order.getDateOfReturn().toString().split("-");
+					yearComboBox.setSelectedItem(date[0]);
+					monthComboBox.setSelectedIndex(Integer.valueOf(date[1])-1);
+					dayComboBox.setSelectedItem(date[2]);
 					
 				}
 			}
 
 		});
+		
+		updateOrderButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {	
+				
+//					client.sendAction(Actions.UPDATE_ORDER);
+//					client.send();
+//					client.send(employeeTextField.getText());
+//					client.send(statusComboBox.getSelectedItem());
+//					int month = monthComboBox.setSelectedIndex(date.getMonthValue()-1);
+//					int day = dayComboBox.setSelectedItem(date.getDayOfMonth());
+//					int year = yearComboBox.setSelectedItem(date.getDayOfYear());
+//					Date dateOfReturn = Date.valueOf(year+"-"+day+"-"+month);
+//					client.send(dateOfReturn);
+
+					Boolean isDeleted = (Boolean) client.getResponse();
+					
+					if(isDeleted) {
+						System.out.println("Order deleted");
+					}
+					
+			}
+		});
+		
 		
 	}
 }

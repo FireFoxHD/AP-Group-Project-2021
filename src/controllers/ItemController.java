@@ -15,20 +15,20 @@ import dbconnection.DbConnect;
 import models.Item;
 
 public class ItemController {
-	private Statement stmt;
-	private ResultSet result;
-	private int numOfRowsAffected;
-	private Connection connection;
+	private static Statement stmt;
+	private static ResultSet result;
+	private static int numOfRowsAffected;
+	private static Connection connection;
 	private static final Logger logger = LogManager.getLogger(Item.class);
 	
 	public ItemController(){
-		this.stmt = null;
-		this.result = null;
-		this.numOfRowsAffected = 0;
-		this.connection = DbConnect.getConnection();
+		ItemController.stmt = null;
+		ItemController.result = null;
+		ItemController.numOfRowsAffected = 0;
+		ItemController.connection = DbConnect.getConnection();
 	}
 	
-	public void create(String id,  String name, double cost, String category, int numInStock) {
+	public static void create(String id,  String name, double cost, String category, int numInStock) {
 		String insertSql = "INSERT INTO equipment_rental.equipment_table (equipment_id, equipment_category, equipment_name, cost, rental_status) VALUES ('"
 				+ id + "','" + category + "','" + name + "', '" + cost + "', '" + numInStock + "')";
 		try {
@@ -46,7 +46,7 @@ public class ItemController {
 		}
 	}
 
-	public Item read(String id) {
+	public static Item read(String id) {
 		Item item = null;
 		String selectSql = "SELECT * FROM grizzlydb.item WHERE equipment_id = '" + id + "'";
 		try {
@@ -73,7 +73,7 @@ public class ItemController {
 		return item;
 	}
 	
-	public ArrayList<Item> readAll() {
+	public static ArrayList<Item> readAll() {
 		ArrayList<Item> items = new ArrayList<Item>();
 		String selectSql = "SELECT * FROM grizzlydb.item WHERE 1=1";
 		try {
@@ -100,7 +100,7 @@ public class ItemController {
 		return items;
 	}
 
-	public void update(String id,  String name, double cost, String category, int numInStock) {
+	public static void update(String id,  String name, double cost, String category, int numInStock) {
 		String updateSql = "UPDATE grizzlydb.item SET category = '" + category+ "',"
 				+ " name='" + name + "', cost = '" + cost + "', quantityInStock = '" + numInStock
 				+ "' WHERE id = '" + id + "'";
@@ -121,7 +121,7 @@ public class ItemController {
 		}
 	}
 
-	public void updateCategory(String id,  String category) {
+	public static void updateCategory(String id,  String category) {
 		String updateSql = "UPDATE grizzlydb.item SET category='" + category + "' WHERE equipment_id = '" + id + "'";
 		try {
 			stmt = connection.createStatement();
@@ -140,7 +140,7 @@ public class ItemController {
 		}
 	}
 
-	public void Delete(String id) {
+	public static void Delete(String id) {
 		String deleteSql = "DELETE FROM equipment_rental.equipment_table WHERE equipment_id = " + id;
 		try {
 			stmt = connection.createStatement();
