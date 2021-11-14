@@ -65,6 +65,13 @@ public class MainScreen {
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnCustomerLogin = new JButton("Customer Login");
+		btnCustomerLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				custLogin cl = new custLogin();
+				cl.setVisible(true);
+			}
+		});
 		btnCustomerLogin.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnCustomerLogin.setBounds(233, 148, 197, 52);
 		frame.getContentPane().add(btnCustomerLogin);

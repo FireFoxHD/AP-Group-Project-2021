@@ -9,6 +9,8 @@ import javax.swing.JTextField;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class passwordActions {
 
@@ -88,6 +90,11 @@ public class passwordActions {
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Customer");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem);
 	}
 }
