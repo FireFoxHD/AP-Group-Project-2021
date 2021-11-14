@@ -1,8 +1,11 @@
 package models;
 
+import java.io.Serializable;
 import java.sql.*;
 
-public class Order {
+public class Order implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String customerId;
 	private String employeeId;

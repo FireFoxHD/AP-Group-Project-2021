@@ -33,7 +33,7 @@ public class EmployeeController {
 	
 	// create
 	public static void create(String id, String firstname, String lastname, Role role, String pass) {
-		String insertSql = "INSERT INTO equipment_rental.employee VALUES ('"+id+"','"+firstname+"','"+lastname+"','"+role.toString()+"')";
+		String insertSql = "INSERT INTO grizzlydb.employee VALUES ('"+id+"','"+firstname+"','"+lastname+"','"+role.toString()+"')";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(insertSql);
@@ -43,6 +43,7 @@ public class EmployeeController {
 				logger.info("Employee Record Created");
 			}
 			
+			new PasswordController();
 			PasswordController.createPassword(id, pass);
 			
 		} catch (SQLException e) {
@@ -54,7 +55,7 @@ public class EmployeeController {
 
 	//Read
 	public static Employee read(String id) {
-		String selectSql = "SELECT * FROM equipment_rental.employee WHERE id =" + id;
+		String selectSql = "SELECT * FROM grizzlydb.employee WHERE id =" + id;
 		Employee emp = null;
 		try {
 			stmt = connection.createStatement();
@@ -103,7 +104,7 @@ public class EmployeeController {
 	
 	// update
 	public static void updateAll(String id, String firstname, String lastname, Role role) {
-		String updateSQL = "UPDATE equipment_rental.employee SET id ='" + id + "', firstname ='"+firstname+"', lastname ='"+lastname+"', role ='"+role.toString()+"' WHERE id = " + id;
+		String updateSQL = "UPDATE grizzlydb.employee SET id ='" + id + "', firstname ='"+firstname+"', lastname ='"+lastname+"', role ='"+role.toString()+"' WHERE id = " + id;
 		
 		try {
 			stmt = connection.createStatement();
@@ -123,7 +124,7 @@ public class EmployeeController {
 
 	// Delete
 	public static void delete(String id) {
-		String deleteSQL = "DELETE FROM equipment_rental.employee WHERE id = " + id;
+		String deleteSQL = "DELETE FROM grizzlydb.employee WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(deleteSQL);

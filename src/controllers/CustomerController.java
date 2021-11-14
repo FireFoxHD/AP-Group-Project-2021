@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 
 import dbconnection.DbConnect;
 import models.Customer;
+import models.Employee;
+import models.Role;
 
 public class CustomerController {
 	
@@ -41,7 +43,7 @@ public class CustomerController {
 						JOptionPane.INFORMATION_MESSAGE);
 				logger.info("Customer Record Created");
 			}
-			
+			new PasswordController();
 			PasswordController.createPassword(id, pass);
 			
 		} catch (SQLException e) {
@@ -51,10 +53,33 @@ public class CustomerController {
 
 	}
 
-	
+	//Read
+	public static Customer read(String id) {
+		String selectSql = "SELECT * FROM grizzlydb.customer WHERE id =" + id;
+		Customer cust = null;
+		try {
+			stmt = connection.createStatement();
+			result = stmt.executeQuery(selectSql);
+			while (result.next()) {
+				String firstname = result.getString("firstname");
+				String lastname = result.getString("lastname");
+				double balance = result.getDouble("balance");
+				
+				cust = new Customer(id,firstname, lastname, balance);
+
+				logger.info("Employee Record Accessed For " +id);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error Selecting: " + e.getMessage());
+			logger.error("Unable To Read Employee Record For "+id+ "\n" +e.getMessage());
+		}
+		
+		return cust;
+	}
+		
 
 	// Select all
-	public ArrayList<Customer> readAll() {
+	public static ArrayList<Customer> readAll() {
 		ArrayList<Customer> customers = new ArrayList<Customer>();
 		String selectSql = "SELECT * FROM grizzlydb.customer WHERE 1 = 1";
 		try {
@@ -66,7 +91,7 @@ public class CustomerController {
 				String lastname = result.getString("lastname");
 				double balance = result.getDouble("balance");
 				
-				customers.add(new Customer(id,firstname,lastname,"pass",balance));
+				customers.add(new Customer(id,firstname,lastname,balance));
 				System.out.println("ID: " + id + "\tName: " + firstname + " " + lastname + "\tBalance:" + balance);
 			}
 			logger.info("Customer Records Accessed");

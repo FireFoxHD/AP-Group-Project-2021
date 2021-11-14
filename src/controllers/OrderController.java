@@ -35,7 +35,7 @@ public class OrderController {
 	// create
 	
 	//TODO think about adding an calling the itemcontroller create and passing it items to create an entry in the orderItems table
-	public void create(String id, String custId, String empId, Date dateOfReturn) {
+	public static void create(String id, String custId, String empId, Date dateOfReturn) {
 		Date dateOfRental = new Date(System.currentTimeMillis());
 		Status status = models.Status.PENDING;
 		
@@ -57,7 +57,7 @@ public class OrderController {
 
 	// select 
 	public static Order read(String id) {
-		String selectSql = "SELECT * FROM equipment_rental.order WHERE id ='" + id + "'";
+		String selectSql = "SELECT * FROM grizzlydb.order WHERE id ='" + id + "'";
 		Order order = null;
 		try {
 			stmt = connection.createStatement();
@@ -111,7 +111,7 @@ public class OrderController {
 
 	// update 
 	//TODO complete updateAll
-	public void update(String id, String customerId, String employeeId, Status status, Date dateOfReturn) {
+	public void update(String id, String employeeId, Status status, Date dateOfReturn) {
 		String updateSQL = "UPDATE grizzlydb.order SET id='" + id + "',empId = '"+employeeId+"', WHERE id = '" + id+"'";
 		try {
 			stmt = connection.createStatement();

@@ -1,13 +1,19 @@
 package server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import controllers.CustomerController;
+import controllers.EmployeeController;
+import controllers.ItemController;
+import controllers.OrderController;
+import controllers.PasswordController;
+import models.Actions;
+import models.Customer;
+import models.Order;
 
 public class ClientHandler extends Thread{
 
@@ -18,6 +24,11 @@ public class ClientHandler extends Thread{
 	public ClientHandler(Socket clientSocket){
 		this.client = clientSocket;
 		configureStreams();
+		new EmployeeController();
+		new CustomerController();
+		new OrderController();
+		new ItemController();
+		new PasswordController();
 	}
 	
 	private void configureStreams(){
@@ -33,39 +44,131 @@ public class ClientHandler extends Thread{
 	public void run() {
 		try {
 			while(true){
-				String action = (String) objIs.readUTF();
-				System.out.println("Action: "+ action);
+				Actions action = (Actions) objIs.readObject();
 				
-				if(action.equalsIgnoreCase("add customer")) {
-					objOs.writeUTF("Enter ID: ");
-					//objOs.flush();
-					String id = (String) objIs.readUTF();
+				//CUSTOMER ACTIONS
+				if(action == Actions.CREATE_CUSTOMER) {
 					
-					objOs.writeUTF("Enter firstname: ");
-					//objOs.flush();
-					String firstname = (String) objIs.readUTF();
-					
-					objOs.writeUTF("Enter lastname: ");
-					//objOs.flush();
-					String lastname = (String) objIs.readUTF();
-					
-					objOs.writeUTF("Enter pass: ");
-					//objOs.flush();
-					String pass = (String) objIs.readUTF();
-					
-					System.out.println("Creating...");
-					CustomerController.create(id, firstname, lastname, pass);
 				}
 				
-				if(action.equalsIgnoreCase("test")) {
-					objOs.writeUTF("test action recieved");
+				if(action == Actions.UPDATE_CUSTOMER) {
+					
 				}
 				
-				objOs.flush();
+				if(action == Actions.UPDATE_CUSTOMER_BALANCE) {
+					
+				}
+				
+				if(action == Actions.READ_CUSTOMER) {
+					String id = (String) objIs.readObject();
+					Customer customer = CustomerController.read(id);
+					objOs.writeObject(customer);
+				}
+
+				if(action == Actions.READ_ALL_CUSTOMERS) {
+					ArrayList<Customer> customers = CustomerController.readAll();
+					objOs.writeObject(customers);
+				}
+				
+				if(action == Actions.DELETE_CUSTOMER) {
+					
+				}
+				
+				//EMPLOYEE ACTIONS
+				if(action == Actions.CREATE_EMPLOYEE) {
+					
+				}
+				
+				if(action == Actions.UPDATE_EMPLOYEE) {
+					
+				}
+				
+				if(action == Actions.READ_EMPLOYEE) {
+					
+				}
+
+				if(action == Actions.READ_ALL_EMPLOYEES) {
+					
+				}
+				if(action == Actions.DELETE_EMPLOYEE) {
+					
+				}
+				
+				//ORDER ACTIONS
+				if(action == Actions.CREATE_ORDER) {
+					
+				}
+				
+				if(action == Actions.UPDATE_ORDER) {
+					
+				}
+
+				if(action == Actions.READ_ORDER) {
+					String id = (String) objIs.readObject();
+					Order order = OrderController.read(id);
+					objOs.writeObject(order);
+				}
+				
+				if(action == Actions.READ_ALL_ORDERS) {
+					ArrayList<Order> orders = OrderController.readAll();
+					objOs.writeObject(orders);
+				}
+				
+				if(action == Actions.DELETE_ORDER) {
+					
+				}
+
+				//ITEM ACTIONS
+				if(action == Actions.CREATE_ITEM) {
+					
+				}
+				
+				if(action == Actions.UPDATE_ITEM) {
+					
+				}
+
+				if(action == Actions.READ_ITEM) {
+					
+				}
+				
+				if(action == Actions.READ_ALL_ITEMS) {
+					
+				}
+				
+				if(action == Actions.DELETE_ITEM) {
+					
+				}
+				
+				//PASSWORD ACTIONS
+				if(action == Actions.VALIDATE_PASSWORD) {
+					String id = (String) objIs.readObject();
+					String password = (String) objIs.readObject();
+					System.out.println("ID: "+ id);
+					System.out.println("PAss: "+ password);
+					Boolean isValid = PasswordController.validate(id, password);
+					System.out.println("VALIDATION: "+ isValid);
+					objOs.writeObject(isValid);
+				}
+				
+				if(action == Actions.UPDATE_PASSWORD) {
+									
+				}
+				
+				if(action == Actions.DELETE_PASSWORD) {
+					
+				}
+
+				
+				//LOGIN
+				if(action == Actions.LOGIN) {
+					
+				}
 				
 			}
 		}catch(IOException e) {
 			System.err.println("Issue running in Client handler");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		

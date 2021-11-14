@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
+
+import models.Actions;
 
 public class Client {
 	
@@ -15,11 +18,8 @@ public class Client {
 	private static BufferedReader br;
 	private static String action = null;
 	
-	private Client(){
+	public Client(){
 		action = null;
-	}
-	
-	public static void main(String[] args) throws IOException{
 		try{
 	    	connectionSocket = new Socket("127.0.0.1",8888);
 	    	outStream = new ObjectOutputStream(connectionSocket.getOutputStream());
@@ -28,6 +28,10 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+	}
+	
+	public static void main(String[] args) throws IOException{
+		
 		
 		while(true) {
 			if (action == null) {
@@ -42,6 +46,43 @@ public class Client {
 		//closeConnection();
 	        
 	}
+	
+	 public void sendAction(Actions action) {
+    	try {
+    		outStream.writeObject(action);
+    	}catch (IOException e) {
+    		e.printStackTrace(); 
+    	} 
+     }
+	 
+	 public <T> void send(T parameter) {
+    	try {
+    		outStream.writeObject(parameter);
+    	}catch (IOException e) {
+    		e.printStackTrace(); 
+    	} 
+     }
+	 
+	 public <T> void sendMultiple(List<T> parameters) {
+    	try {
+    		for(T param : parameters) {
+    			outStream.writeObject(param);
+    		}
+    	}catch (IOException e) {
+    		e.printStackTrace(); 
+    	} 
+     }
+
+    public <T> Object getResponse() {
+    	Object response = null;
+    	try {
+    		response =  inStream.readObject();
+    	}catch (IOException | ClassNotFoundException e) {
+    		e.printStackTrace(); 
+    	}
+    	System.out.println("[SERVER] Sending Response ...");
+		return response;
+    }
 	  
 
 	public static void closeConnection(){

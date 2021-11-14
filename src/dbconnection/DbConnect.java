@@ -11,7 +11,7 @@ public class DbConnect {
 
 	public static Connection getConnection() {
 		if (connection == null) {
-			String url = "jdbc:mysql://localhost:3306/equipment_rental";
+			String url = "jdbc:mysql://localhost:3306/grizzlydb";
 			try {
 				connection = DriverManager.getConnection(url, "root", "");
 				if (connection != null) {

@@ -1,5 +1,6 @@
 package controllers;
 
+import java.awt.HeadlessException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -22,6 +23,7 @@ public class PasswordController {
 	private static ResultSet result;
 	private static int numOfRowsAffected;
 	private static Connection connection;
+
 	private static final Logger logger = LogManager.getLogger(String.class);
 	
 	public PasswordController() {
@@ -34,8 +36,9 @@ public class PasswordController {
 	
 	// Create Password
 	public static void createPassword(String id, String password) {
-		password = encryptPassword(password);
-		String insertSql = "INSERT INTO grizzlydb.hash VALUES ('" + id + "', '" + password+"')";
+		String salt = getSalt();
+		password = encryptPassword(password,salt);
+		String insertSql = "INSERT INTO grizzlydb.hash VALUES ('" + id + "', '" + salt +"','"+ password +"')";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(insertSql);
@@ -52,7 +55,7 @@ public class PasswordController {
 	}
 	
 	// Read Password
-	public static String readHash(String id) {
+	private static String readHash(String id) {
 		String selectSql = "SELECT * FROM grizzlydb.hash WHERE id = '" + id + "'";
 		String password = "";
 		try {
@@ -71,29 +74,51 @@ public class PasswordController {
 		return password;
 	}
 	
-	// Update Password
-	public static void update(String id,  String password) {
-		password = encryptPassword(password);
-		String updateSql = "UPDATE grizzlydb.hash SET hash='" + password + "' WHERE id = '" + id + "'";
+	private static String readSalt(String id) {
+		String selectSql = "SELECT * FROM grizzlydb.hash WHERE id = '" + id + "'";
+		String salt = "";
 		try {
 			stmt = connection.createStatement();
-			numOfRowsAffected = stmt.executeUpdate(updateSql);
-
-			if(numOfRowsAffected == 1)
-			{
-				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Name For Item Record "+id+ " Updated");
-			}
+			result = stmt.executeQuery(selectSql);
+			result.next();
+			salt = result.getString("salt");
+			logger.info("Password Retrived "+id+" Accessed");
+			
 		}
 		catch(SQLException e)
 		{
-			System.err.println("Update error: " +e.getMessage());
-			logger.error("Unable To Update Name For Item " +id+", "+e.getMessage());
+			System.err.println("SQL Exception: " +e.getMessage());
+			logger.error("Could Not Access Item Record," +id+"\n"+e.getMessage());
+		}
+		return salt;
+	}
+	
+	// Update Password
+	public static void update(String id,  String oldPassword, String newPassword) {
+		String salt = getSalt();
+		if(validate(id, oldPassword)) {
+			String password = encryptPassword(newPassword,salt);
+			String updateSql = "UPDATE grizzlydb.hash SET hash='" + password + "' WHERE id = '" + id + "'";
+			try {
+				stmt = connection.createStatement();
+				numOfRowsAffected = stmt.executeUpdate(updateSql);
+
+				if(numOfRowsAffected == 1)
+				{
+					JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
+					logger.info("Name For Item Record "+id+ " Updated");
+				}
+			}
+			catch(SQLException e)
+			{
+				System.err.println("Update error: " +e.getMessage());
+				logger.error("Unable To Update Name For Item " +id+", "+e.getMessage());
+			}
 		}
 	}
 	
 	// Delete Password
-	public static void Delete(String id) {
+	public static void delete(String id) {
 		String deleteSql = "DELETE FROM grizzlydb.hash WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -112,9 +137,21 @@ public class PasswordController {
 	}
 	
 	// Validate password
-	public static Boolean Validate(String id, String pass) {
-		String hashFromDb = readHash(id);
-		String password = encryptPassword(pass);
+	public static Boolean validate(String id, String pass) {
+
+		String saltFromDb = "";
+		String password = "";
+		String hashFromDb = "";
+		
+		
+		
+		saltFromDb = readSalt(id);
+		password = encryptPassword(pass,saltFromDb);
+		hashFromDb = readHash(id);
+		
+		System.out.println("controller-db: "+ hashFromDb);
+		System.out.println("controller-hash: "+ password);
+	
 		if(hashFromDb.equals(password)) {
 			return true;
 		}else {
@@ -123,11 +160,10 @@ public class PasswordController {
 	}
 	
 	// Encrypt password
-	private static String encryptPassword(String passwordToHash) {
+	private static String encryptPassword(String passwordToHash,String salt) {
 			
         	String generatedPassword = null;
             try {
-            	String salt = getSalt();
                 MessageDigest md = MessageDigest.getInstance("SHA-512");
                 md.update(salt.getBytes());
                 byte[] bytes = md.digest(passwordToHash.getBytes());
@@ -137,17 +173,21 @@ public class PasswordController {
                     sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
                 }
                 generatedPassword = sb.toString();
-            }catch (NoSuchAlgorithmException | NoSuchProviderException  e) {
+            }catch (NoSuchAlgorithmException  e) {
                 e.printStackTrace();
             }
             return generatedPassword;
     }
 
     // Add salt
-    private static String getSalt() throws NoSuchAlgorithmException, NoSuchProviderException 
-    {
+    private static String getSalt(){
         // Always use a SecureRandom generator
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
+        SecureRandom sr = null;
+		try {
+			sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
+		} catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+			e.printStackTrace();
+		} 
 
         // Create array for salt
         byte[] salt = new byte[16];

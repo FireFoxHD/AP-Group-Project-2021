@@ -1,7 +1,10 @@
 package models;
 
+import java.io.Serializable;
 
-public class Customer {
+public class Customer implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String firstname;
 	private String lastname;
@@ -15,7 +18,7 @@ public class Customer {
 		this.balance = 0.0;
 	}
 	
-	public Customer(String id, String firstname, String lastname, String pass, double bal) {
+	public Customer(String id, String firstname, String lastname, double bal) {
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;

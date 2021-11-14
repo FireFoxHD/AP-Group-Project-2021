@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2021 at 09:40 AM
+-- Generation Time: Nov 14, 2021 at 12:17 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -125,53 +125,19 @@ ALTER TABLE `hash`
 -- Indexes for table `item`
 --
 ALTER TABLE `item`
-  ADD KEY `ord_item` (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `order`
 --
 ALTER TABLE `order`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `order_cust` (`custID`),
-  ADD KEY `order_emp` (`empID`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `order_item`
 --
 ALTER TABLE `order_item`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `itemID` (`itemID`);
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `customer`
---
-ALTER TABLE `customer`
-  ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`id`) REFERENCES `order` (`id`);
-
---
--- Constraints for table `hash`
---
-ALTER TABLE `hash`
-  ADD CONSTRAINT `cust_hash` FOREIGN KEY (`id`) REFERENCES `customer` (`id`),
-  ADD CONSTRAINT `emp_hash` FOREIGN KEY (`id`) REFERENCES `employee` (`id`);
-
---
--- Constraints for table `order`
---
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_cust` FOREIGN KEY (`custID`) REFERENCES `customer` (`id`),
-  ADD CONSTRAINT `order_emp` FOREIGN KEY (`empID`) REFERENCES `employee` (`id`);
-
---
--- Constraints for table `order_item`
---
-ALTER TABLE `order_item`
-  ADD CONSTRAINT `order` FOREIGN KEY (`id`) REFERENCES `order` (`id`),
-  ADD CONSTRAINT `order_item_ibfk_1` FOREIGN KEY (`itemID`) REFERENCES `item` (`id`);
+  ADD PRIMARY KEY (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
