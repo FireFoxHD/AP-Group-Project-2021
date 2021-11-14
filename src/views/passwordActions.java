@@ -93,6 +93,7 @@ public class passwordActions {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
+				
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
