@@ -32,7 +32,7 @@ public class EmployeeController {
 	}
 	
 	// create
-	public static void create(String id, String firstname, String lastname, String email, String phoneNumber, Role role, String pass) {
+	public static Boolean create(String id, String firstname, String lastname, String email, String phoneNumber, Role role, String pass) {
 		String insertSql = "INSERT INTO grizzlydb.employee VALUES ('"+id+"','"+firstname+"','"+lastname+"','"+ email + "','"+ phoneNumber +"','"+role.toString()+"')";
 		try {
 			stmt = connection.createStatement();
@@ -49,6 +49,12 @@ public class EmployeeController {
 		} catch (SQLException e) {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
 			logger.error("Could Not Create Employee Record: "+e.getMessage());
+		}
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
 		}
 
 	}
@@ -107,7 +113,7 @@ public class EmployeeController {
 	}
 	
 	// update
-	public static void updateAll(String id, String firstname, String lastname, String email, String phoneNumber, Role role) {
+	public static Boolean update(String id, String firstname, String lastname, String email, String phoneNumber, Role role) {
 		String updateSQL = "UPDATE grizzlydb.employee SET id ='" + id + "', firstname ='"+firstname+"', lastname ='"+lastname+"', email ='"+email+"', phoneNumber ='"+phoneNumber+"', role ='"+role.toString()+"' WHERE id = " + id;
 		
 		try {
@@ -122,12 +128,18 @@ public class EmployeeController {
 			System.err.println("Error Updating: " + e.getMessage());
 			logger.error("Could Not Update Employee Record "+ id +"\n"+e.getMessage());
 		}
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
+		}
 
 	}
 	
 
 	// Delete
-	public static void delete(String id) {
+	public static Boolean delete(String id) {
 		String deleteSQL = "DELETE FROM grizzlydb.employee WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -135,12 +147,21 @@ public class EmployeeController {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Employee record deleted", "Employee Delete",
 						JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Employee Record"+ id +"Deleted");
+				logger.info("Employee Record"+ id +"Deleted");	
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Deleting: " + e.getMessage());
 			logger.error("Could Not Delete Employee Record "+ id +"\n"+e.getMessage());
+			
 		}
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
+		}
+		
+
 	}
 
 }

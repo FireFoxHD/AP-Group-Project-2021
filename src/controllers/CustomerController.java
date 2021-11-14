@@ -32,7 +32,7 @@ public class CustomerController {
     }
 
 	// Create
-	public static void create(String id, String firstname, String lastname, String email, String phoneNumber, String pass) {
+	public static Boolean create(String id, String firstname, String lastname, String email, String phoneNumber, String pass) {
 		String insertSql = "INSERT INTO grizzlydb.customer VALUES ('" + id + "', '" + firstname + "','" + lastname + "','"+ email + "','"+ phoneNumber +"','" + 0.0 + "')";
 		
 		try {
@@ -51,6 +51,11 @@ public class CustomerController {
 			logger.error("SQL Error, Customer Record Not Created: " +e.getMessage());
 		}
 
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	//Read
@@ -103,12 +108,12 @@ public class CustomerController {
 			System.err.println("Error Selecting All: " + e.getMessage());
 			logger.error("Could Not Read Customer Records: " +e.getMessage());
 		}
-		return null;
+		return customers;
 
 	}
 
 	// Update all (except password)
-	public static void update(String id, String firstname, String lastname, String email, String phoneNumber, double bal) {
+	public static Boolean update(String id, String firstname, String lastname, String email, String phoneNumber, double bal) {
 		String updateSQL = "UPDATE grizzlydb.customer SET id='" + firstname+ "' WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -123,10 +128,15 @@ public class CustomerController {
 			logger.error("Error Updating First Name For Customer Record " +id+"\n"+e.getMessage());
 		}
 
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	// Update Balance
-	public static void updateBalance(String id, float balance) {
+	public static boolean updateBalance(String id, double balance) {
 		String updateSQL = "UPDATE grizzlydb.customer SET id='" + id + "' WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -141,11 +151,17 @@ public class CustomerController {
 			logger.error("Error Updating Balance For Customer Record " +id+"\n"+e.getMessage());
 		}
 		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
+		}
+		
 	}
 
 	
 	// Delete
-	public static void delete(String id) {
+	public static Boolean delete(String id) {
 		String deleteSQL = "DELETE FROM grizzlydb.customer WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -158,6 +174,12 @@ public class CustomerController {
 		} catch (SQLException e) {
 			System.err.println("Error Deleting: " + e.getMessage());
 			logger.error("Error Deleting Customer Record " +id+"\n"+e.getMessage());
+		}
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 }

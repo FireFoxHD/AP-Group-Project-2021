@@ -35,7 +35,7 @@ public class OrderController {
 	// create
 	
 	//TODO think about adding an calling the itemcontroller create and passing it items to create an entry in the orderItems table
-	public static void createNow(String id, String custId, String empId, Date dateOfReturn) {
+	public static Boolean createNow(String id, String custId, String empId, Date dateOfReturn) {
 		Date dateOfRental = new Date(System.currentTimeMillis());
 		Status status = models.Status.PENDING;
 		
@@ -52,10 +52,16 @@ public class OrderController {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
 			logger.error("Unable To Create Order Record "+id+", "+e.getMessage());
 		}
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
+		}
 
 	}
 	
-	public static void create(String id, String custId, String empId, Date dateOfRental, Date dateOfReturn) {
+	public static Boolean create(String id, String custId, String empId, Date dateOfRental, Date dateOfReturn) {
 		Status status = models.Status.PENDING;
 		
 		String insertSql = "INSERT INTO grizzlydb.order VALUES ('" + id + "', '" + custId + "','"
@@ -71,7 +77,12 @@ public class OrderController {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
 			logger.error("Unable To Create Order Record "+id+", "+e.getMessage());
 		}
-
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	// select 
@@ -129,9 +140,8 @@ public class OrderController {
 	}
 
 	// update 
-	//TODO complete updateAll
-	public static void update(String id, String employeeId, Status status, Date dateOfReturn) {
-		String updateSQL = "UPDATE grizzlydb.order SET id='" + id + "',empId = '"+employeeId+"', WHERE id = '" + id+"'";
+	public static Boolean update(String id, String employeeId, Status status, Date dateOfReturn) {
+		String updateSQL = "UPDATE grizzlydb.order SET empId = '"+employeeId+ "',status = '"+status+ "',dateOfReturn = '"+dateOfReturn+"' WHERE id = '" + id+"'";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(updateSQL);
@@ -144,11 +154,17 @@ public class OrderController {
 			System.err.println("Error Updating: " + e.getMessage());
 			logger.error("Unable To Update Order Record "+id+", "+e.getMessage());
 		}
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
+		}
 
 	}
 
 	// delete
-	public static void delete(String id) {
+	public static Boolean delete(String id) {
 		String deleteSQL = "DELETE FROM grizzlydb.order WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -160,6 +176,11 @@ public class OrderController {
 		} catch (SQLException e) {
 			System.err.println("Error Deleting: " + e.getMessage());
 			logger.error("Unable To Delete Order Record "+id+", "+e.getMessage());
+		}
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 

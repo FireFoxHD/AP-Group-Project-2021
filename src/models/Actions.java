@@ -5,6 +5,7 @@ import java.io.Serializable;
 public enum Actions implements Serializable{
 	LOGIN,
 	CREATE_ORDER,
+	CREATE_ORDER_NOW,
 	UPDATE_ORDER,
 	READ_ORDER,
 	READ_ALL_ORDERS,

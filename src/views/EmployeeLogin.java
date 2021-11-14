@@ -104,7 +104,7 @@ public class EmployeeLogin extends JFrame {
 				String password = new String(passwordField.getPassword());  
 				
 				if(!(id.isEmpty() || password.isEmpty())) { //switch to isblank
-					client.sendAction(Actions.VALIDATE_PASSWORD);
+					client.sendAction(Actions.LOGIN);
 					List<String> params = new ArrayList<String>();
 					params.add(id);
 					params.add(password);

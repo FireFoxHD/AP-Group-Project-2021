@@ -28,7 +28,7 @@ public class ItemController {
 		ItemController.connection = DbConnect.getConnection();
 	}
 	
-	public static void create(String id,  String name, double cost, String category, int numInStock) {
+	public static Boolean create(String id,  String name, double cost, String category, int numInStock) {
 		String insertSql = "INSERT INTO equipment_rental.equipment_table (equipment_id, equipment_category, equipment_name, cost, rental_status) VALUES ('"
 				+ id + "','" + category + "','" + name + "', '" + cost + "', '" + numInStock + "')";
 		try {
@@ -43,6 +43,12 @@ public class ItemController {
 		} catch (SQLException e) {
 			System.out.println("SQL Exception: " + e.getMessage());
 			logger.error("Could Not Create Item Record "+id+ ", "+e.getMessage());
+		}
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 
@@ -100,7 +106,7 @@ public class ItemController {
 		return items;
 	}
 
-	public static void update(String id,  String name, double cost, String category, int numInStock) {
+	public static Boolean update(String id,  String name, double cost, String category, int numInStock) {
 		String updateSql = "UPDATE grizzlydb.item SET category = '" + category+ "',"
 				+ " name='" + name + "', cost = '" + cost + "', quantityInStock = '" + numInStock
 				+ "' WHERE id = '" + id + "'";
@@ -119,26 +125,14 @@ public class ItemController {
 			System.err.println("Update error: " +e.getMessage());
 			logger.error("Error Updating Item Record "+id+", "+e.getMessage());
 		}
-	}
-
-	public static void updateCategory(String id,  String category) {
-		String updateSql = "UPDATE grizzlydb.item SET category='" + category + "' WHERE equipment_id = '" + id + "'";
-		try {
-			stmt = connection.createStatement();
-			numOfRowsAffected = stmt.executeUpdate(updateSql);
-
-			if(numOfRowsAffected == 1)
-			{
-				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Category Updated For Item Record "+id);
-			}
-		}
-		catch(SQLException e)
-		{
-			System.err.println("Update error: " +e.getMessage());
-			logger.error("Unable Top Update Category For Item Record "+id+", "+e.getMessage());
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
 		}
 	}
+
 
 	public static void Delete(String id) {
 		String deleteSql = "DELETE FROM equipment_rental.equipment_table WHERE equipment_id = " + id;

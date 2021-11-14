@@ -94,8 +94,9 @@ public class PasswordController {
 	}
 	
 	// Update Password
-	public static void update(String id,  String oldPassword, String newPassword) {
+	public static Boolean update(String id,  String oldPassword, String newPassword) {
 		String salt = getSalt();
+		numOfRowsAffected=0;
 		if(validate(id, oldPassword)) {
 			String password = encryptPassword(newPassword,salt);
 			String updateSql = "UPDATE grizzlydb.hash SET hash='" + password + "' WHERE id = '" + id + "'";
@@ -115,10 +116,15 @@ public class PasswordController {
 				logger.error("Unable To Update Name For Item " +id+", "+e.getMessage());
 			}
 		}
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	// Delete Password
-	public static void delete(String id) {
+	public static Boolean delete(String id) {
 		String deleteSql = "DELETE FROM grizzlydb.hash WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
@@ -133,6 +139,12 @@ public class PasswordController {
 		}catch(SQLException e){
 			System.err.println(e.getMessage());
 			logger.error("Unable To Delete Item Record "+id+", "+e.getMessage());
+		}
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 	
