@@ -32,8 +32,8 @@ public class EmployeeController {
 	}
 	
 	// create
-	public static void create(String id, String firstname, String lastname, Role role, String pass) {
-		String insertSql = "INSERT INTO grizzlydb.employee VALUES ('"+id+"','"+firstname+"','"+lastname+"','"+role.toString()+"')";
+	public static void create(String id, String firstname, String lastname, String email, String phoneNumber, Role role, String pass) {
+		String insertSql = "INSERT INTO grizzlydb.employee VALUES ('"+id+"','"+firstname+"','"+lastname+"','"+ email + "','"+ phoneNumber +"','"+role.toString()+"')";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(insertSql);
@@ -63,9 +63,11 @@ public class EmployeeController {
 			while (result.next()) {
 				String firstname = result.getString("firstname");
 				String lastname = result.getString("lastname");
+				String email = result.getString("email");
+				String phoneNumber = result.getString("phoneNumber");
 				String role = result.getString("role");
 				
-				emp = new Employee(id, firstname,lastname,Role.valueOf(role));
+				emp = new Employee(id, firstname,lastname, email, phoneNumber, Role.valueOf(role));
 				System.out.println("ID: " + id +"\tName: " + firstname+" "+lastname+"\tRole: "+Role.valueOf(role));
 				logger.info("Employee Record Accessed For " +id);
 			}
@@ -88,9 +90,11 @@ public class EmployeeController {
 				String id = result.getString("id");
 				String firstname = result.getString("firstname");
 				String lastname = result.getString("lastname");
+				String email = result.getString("email");
+				String phoneNumber = result.getString("phoneNumber");
 				String role = result.getString("role");
 				
-				employees.add(new Employee(id, firstname,lastname,Role.valueOf(role)));
+				employees.add(new Employee(id, firstname,lastname, email, phoneNumber,Role.valueOf(role)));
 		
 				System.out.println("ID: " + id + "\tName: " + firstname+" "+lastname+"\tRole: "+role);
 			}
@@ -103,8 +107,8 @@ public class EmployeeController {
 	}
 	
 	// update
-	public static void updateAll(String id, String firstname, String lastname, Role role) {
-		String updateSQL = "UPDATE grizzlydb.employee SET id ='" + id + "', firstname ='"+firstname+"', lastname ='"+lastname+"', role ='"+role.toString()+"' WHERE id = " + id;
+	public static void updateAll(String id, String firstname, String lastname, String email, String phoneNumber, Role role) {
+		String updateSQL = "UPDATE grizzlydb.employee SET id ='" + id + "', firstname ='"+firstname+"', lastname ='"+lastname+"', email ='"+email+"', phoneNumber ='"+phoneNumber+"', role ='"+role.toString()+"' WHERE id = " + id;
 		
 		try {
 			stmt = connection.createStatement();

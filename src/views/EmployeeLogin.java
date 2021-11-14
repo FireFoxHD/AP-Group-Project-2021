@@ -26,7 +26,7 @@ import javax.swing.JButton;
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
 
-public class EmployeeLogin {
+public class EmployeeLogin extends JFrame {
 
 	private JFrame frmCustomerLogin;
 	private JTextField idField;
@@ -39,11 +39,11 @@ public class EmployeeLogin {
 			public void run() {
 				try {
 					EmployeeLogin window = new EmployeeLogin();
-					window.frmCustomerLogin.setVisible(true);
+					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
+			}	
 		});
 	}
 
@@ -55,46 +55,46 @@ public class EmployeeLogin {
 	
 	private void initialize() {
 		
-		frmCustomerLogin = new JFrame();
-		frmCustomerLogin.setTitle("Employee Login");
-		frmCustomerLogin.setBounds(100, 100, 617, 426);
-		frmCustomerLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmCustomerLogin.getContentPane().setLayout(null);
+		
+		this.setTitle("Employee Login");
+		this.setBounds(100, 100, 617, 426);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(null);
 		
 		JLabel welcomeLabel = new JLabel("Welcome");
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 50));
 		welcomeLabel.setBounds(184, 26, 232, 55);
-		frmCustomerLogin.getContentPane().add(welcomeLabel);
+		this.getContentPane().add(welcomeLabel);
 		
 		JLabel idLabel = new JLabel("Staff ID");
 		idLabel.setForeground(SystemColor.textInactiveText);
 		idLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		idLabel.setBounds(118, 136, 68, 26);
-		frmCustomerLogin.getContentPane().add(idLabel);
+		this.getContentPane().add(idLabel);
 		
 		JLabel passwordLabel = new JLabel("Password");
 		passwordLabel.setForeground(SystemColor.textInactiveText);
 		passwordLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		passwordLabel.setBounds(118, 172, 114, 34);
-		frmCustomerLogin.getContentPane().add(passwordLabel);
+		this.getContentPane().add(passwordLabel);
 		
 		idField = new JTextField();
 		idField.setToolTipText("Enter ID");
 		idField.setBounds(219, 130, 197, 36);
-		frmCustomerLogin.getContentPane().add(idField);
+		this.getContentPane().add(idField);
 		idField.setColumns(10);
 		
 		passwordField = new JPasswordField();
 		passwordField.setToolTipText("Enter password");
 		passwordField.setBounds(219, 172, 197, 34);
-		frmCustomerLogin.getContentPane().add(passwordField);
+		this.getContentPane().add(passwordField);
 		passwordField.setColumns(10);
 		
 		JLabel invalidLabel = new JLabel();
 		invalidLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		invalidLabel.setBounds(219, 273, 197, 34);
-		frmCustomerLogin.getContentPane().add(invalidLabel);
+		this.getContentPane().add(invalidLabel);
 		
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(new ActionListener() {
@@ -124,7 +124,7 @@ public class EmployeeLogin {
 			}
 		});
 		loginButton.setBounds(219, 218, 197, 34);
-		frmCustomerLogin.getContentPane().add(loginButton);
+		this.getContentPane().add(loginButton);
 		
 		
 		

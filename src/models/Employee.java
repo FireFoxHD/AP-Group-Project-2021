@@ -8,19 +8,25 @@ public class Employee implements Serializable{
 	private String id;
 	private String firstname;
 	private String lastname;
+	private String email;
+	private String phoneNumber;
 	private Role role;
 	
 	public Employee() {
 		this.id = "";
 		this.firstname = "";
 		this.lastname = "";
+		this.email = "";
+		this.phoneNumber = "";
 		this.role = null;
 	}
 	
-	public Employee(String id, String firstname, String lastname, Role role) {
+	public Employee(String id, String firstname, String lastname,String email, String phoneNumber, Role role) {
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
 		this.role = role;
 	}
 
@@ -59,8 +65,24 @@ public class Employee implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "ID: " + this.id + "\tName: " + this.firstname +" "+this.lastname + "\t Role: "+this.role.toString();
+		return "ID: " + this.id + "\tName: " + this.firstname +" "+this.lastname + "\tEmail: "+this.email+"\t phoneNumber: "+phoneNumber+"\t Role: "+this.role.toString();
 		
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 }

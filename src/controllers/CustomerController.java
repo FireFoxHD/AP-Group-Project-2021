@@ -32,8 +32,8 @@ public class CustomerController {
     }
 
 	// Create
-	public static void create(String id, String firstname, String lastname, String pass) {
-		String insertSql = "INSERT INTO grizzlydb.customer VALUES ('" + id + "', '" + firstname + "','" + lastname + "','" + 0.0 + "')";
+	public static void create(String id, String firstname, String lastname, String email, String phoneNumber, String pass) {
+		String insertSql = "INSERT INTO grizzlydb.customer VALUES ('" + id + "', '" + firstname + "','" + lastname + "','"+ email + "','"+ phoneNumber +"','" + 0.0 + "')";
 		
 		try {
 			stmt = connection.createStatement();
@@ -63,9 +63,11 @@ public class CustomerController {
 			while (result.next()) {
 				String firstname = result.getString("firstname");
 				String lastname = result.getString("lastname");
+				String email = result.getString("email");
+				String phoneNumber = result.getString("phoneNumber");
 				double balance = result.getDouble("balance");
 				
-				cust = new Customer(id,firstname, lastname, balance);
+				cust = new Customer(id,firstname,lastname, email, phoneNumber, balance);
 
 				logger.info("Employee Record Accessed For " +id);
 			}
@@ -89,9 +91,11 @@ public class CustomerController {
 				String id = result.getString("id");
 				String firstname = result.getString("firstname");
 				String lastname = result.getString("lastname");
+				String email = result.getString("email");
+				String phoneNumber = result.getString("phoneNumber");
 				double balance = result.getDouble("balance");
 				
-				customers.add(new Customer(id,firstname,lastname,balance));
+				customers.add(new Customer(id,firstname,lastname, email, phoneNumber, balance));
 				System.out.println("ID: " + id + "\tName: " + firstname + " " + lastname + "\tBalance:" + balance);
 			}
 			logger.info("Customer Records Accessed");
@@ -104,7 +108,7 @@ public class CustomerController {
 	}
 
 	// Update all (except password)
-	public static void update(String id, String firstname, String lastname, double bal) {
+	public static void update(String id, String firstname, String lastname, String email, String phoneNumber, double bal) {
 		String updateSQL = "UPDATE grizzlydb.customer SET id='" + firstname+ "' WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();

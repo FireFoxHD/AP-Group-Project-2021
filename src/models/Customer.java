@@ -8,6 +8,8 @@ public class Customer implements Serializable{
 	private String id;
 	private String firstname;
 	private String lastname;
+	private String email;
+	private String phoneNumber;
 	private double balance;
 	
 	
@@ -15,13 +17,17 @@ public class Customer implements Serializable{
 		this.id = "";
 		this.firstname = "";
 		this.lastname = "";
+		this.setEmail("");
+		this.setPhoneNumber("");
 		this.balance = 0.0;
 	}
 	
-	public Customer(String id, String firstname, String lastname, double bal) {
+	public Customer(String id, String firstname, String lastname, String email, String phoneNumber, double bal) {
 		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.setEmail(email);
+		this.setPhoneNumber(phoneNumber);
 		this.balance = bal;
 	}
 
@@ -59,7 +65,23 @@ public class Customer implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "ID: " + this.id + "\tName: " + this.firstname +" "+this.lastname + "\t bal: "+ this.balance;
+		return "ID: " + this.id + "\tName: " + this.firstname +" "+this.lastname + "\tEmail: " + this.email+"\tPhone: " +this.phoneNumber +"\t bal: "+ this.balance;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	

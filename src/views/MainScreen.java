@@ -56,7 +56,7 @@ public class MainScreen {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				EmpLogin eml = new EmpLogin();
+				EmployeeLogin eml = new EmployeeLogin();
 				eml.setVisible(true);
 			}
 		});
@@ -68,7 +68,7 @@ public class MainScreen {
 		btnCustomerLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				custLogin cl = new custLogin();
+				CustomerLogin cl = new CustomerLogin();
 				cl.setVisible(true);
 			}
 		});

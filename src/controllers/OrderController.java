@@ -35,8 +35,27 @@ public class OrderController {
 	// create
 	
 	//TODO think about adding an calling the itemcontroller create and passing it items to create an entry in the orderItems table
-	public static void create(String id, String custId, String empId, Date dateOfReturn) {
+	public static void createNow(String id, String custId, String empId, Date dateOfReturn) {
 		Date dateOfRental = new Date(System.currentTimeMillis());
+		Status status = models.Status.PENDING;
+		
+		String insertSql = "INSERT INTO grizzlydb.order VALUES ('" + id + "', '" + custId + "','"
+				+ empId + "','" + status.toString()+ "','" + dateOfRental + "','" + dateOfReturn + "')";
+		try {
+			stmt = connection.createStatement();
+			numOfRowsAffected = stmt.executeUpdate(insertSql);
+			if (numOfRowsAffected == 1) {
+				JOptionPane.showMessageDialog(null, "Order created", "Order Creation", JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Order Record "+id+" Created");
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL Exception thrown: create " + e.getMessage());
+			logger.error("Unable To Create Order Record "+id+", "+e.getMessage());
+		}
+
+	}
+	
+	public static void create(String id, String custId, String empId, Date dateOfRental, Date dateOfReturn) {
 		Status status = models.Status.PENDING;
 		
 		String insertSql = "INSERT INTO grizzlydb.order VALUES ('" + id + "', '" + custId + "','"

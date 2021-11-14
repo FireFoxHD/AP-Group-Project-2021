@@ -32,8 +32,8 @@ public class Main {
 		new CustomerController();
 		new OrderController();
 		new ItemController();
-		//EmployeeController.create("0001", "Rick", "Jones", Role.EMPLOYEE,"test");
-		//CustomerController.create("0001", "Bill", "Nye", "customer");
+		EmployeeController.create("0001", "Rick", "Jones","ricky@gbail.com","18765550000", Role.EMPLOYEE,"test");
+		CustomerController.create("0001", "Bill", "Nye", "billnye@scienceguy.com","18763141529","customer");
 		//OrderController.create("0001","0001","0001", newDate);
 		
 		
