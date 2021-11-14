@@ -1,6 +1,8 @@
 package models;
 
-public enum Status {
+import java.io.Serializable;
+
+public enum Status implements Serializable {
 		  PENDING, 	//order is being prepared
 		  HOLD, 	//order is paused possible due to low stock
 		  SUPPLIED,	//items supplied and awaiting return
