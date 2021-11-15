@@ -28,6 +28,10 @@ import javax.swing.SwingConstants;
 
 public class EmployeeLogin extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame frmCustomerLogin;
 	private JTextField idField;
 	private JPasswordField passwordField;
@@ -38,7 +42,7 @@ public class EmployeeLogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EmployeeLogin window = new EmployeeLogin();
+					EmployeeLogin window = new EmployeeLogin(new Client());
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,8 +51,8 @@ public class EmployeeLogin extends JFrame {
 		});
 	}
 
-	public EmployeeLogin() {
-		client = new Client();
+	public EmployeeLogin(Client client) {
+		this.client = client;
 		initialize();
 	}
 

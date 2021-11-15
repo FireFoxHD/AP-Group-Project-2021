@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
@@ -31,10 +33,15 @@ public class InvoiceController {
 	
 	//Add items to order
 	public static Boolean create(String orderid,  String itemid, int quantity) {
-		String insertSql = "INSERT INTO grizzlydb.order_item (orderID, itemID, quantity) VALUES ('"+ orderid + "','" + itemid + "','" + quantity +"')";
+		//String insertSql = "INSERT INTO grizzlydb.order_item (orderID, itemID, quantity) VALUES ('"+ orderid + "','" + itemid + "','" + quantity +"')";
+		String insertSql = "INSERT INTO grizzlydb.order_item VALUES (?,?,?,?)";
 		try {
-			stmt = connection.createStatement();
-			int numRowsAffected = stmt.executeUpdate(insertSql);
+			PreparedStatement stmt = connection.prepareStatement(insertSql);
+			stmt.setString(1, null);
+			stmt.setString(2, orderid);
+			stmt.setString(3, itemid);
+			stmt.setInt(4, quantity);
+			int numRowsAffected = stmt.executeUpdate();
 
 			if(numRowsAffected == 1)
 			{

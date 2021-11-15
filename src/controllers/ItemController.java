@@ -29,7 +29,7 @@ public class ItemController {
 	}
 	
 	public static Boolean create(String id,  String name, double cost, String category, int numInStock) {
-		String insertSql = "INSERT INTO grizzlydb.item VALUES ('"+ id + "','" + category + "','" + name + "', '" + cost + "', '" + numInStock + "')";
+		String insertSql = "INSERT INTO grizzlydb.item VALUES ('"+ id + "','" + name + "','" + cost + "', '" + category + "', '" + numInStock + "')";
 		try {
 			stmt = connection.createStatement();
 			int numRowsAffected = stmt.executeUpdate(insertSql);
@@ -109,6 +109,31 @@ public class ItemController {
 		String updateSql = "UPDATE grizzlydb.item SET category = '" + category+ "',"
 				+ " name='" + name + "', cost = '" + cost + "', quantityInStock = '" + numInStock
 				+ "' WHERE id = '" + id + "'";
+		try {
+			stmt = connection.createStatement();
+			numOfRowsAffected = stmt.executeUpdate(updateSql);
+
+			if(numOfRowsAffected == 1)
+			{
+				JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
+				logger.info("Item Record"+id+" Updated");
+			}
+		}
+		catch(SQLException e)
+		{
+			System.err.println("Update error: " +e.getMessage());
+			logger.error("Error Updating Item Record "+id+", "+e.getMessage());
+		}
+		
+		if (numOfRowsAffected == 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public static Boolean updateStock(String id,  int numInStock) {
+		String updateSql = "UPDATE grizzlydb.item SET quantityInStock = '" + numInStock + "' WHERE id = '" + id + "'";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(updateSql);

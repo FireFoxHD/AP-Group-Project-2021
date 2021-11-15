@@ -208,6 +208,12 @@ public class ClientHandler extends Thread{
 					Boolean isUpdated = ItemController.update(id,name, cost, category, numInStock);
 					objOs.writeObject(isUpdated);
 				}
+				if(action == Actions.UPDATE_STOCK) {
+					String id = (String) objIs.readObject();
+					int numInStock = (int) objIs.readObject();
+					Boolean isUpdated = ItemController.updateStock(id,numInStock);
+					objOs.writeObject(isUpdated);
+				}
 
 				if(action == Actions.READ_ITEM) {
 					String id = (String) objIs.readObject();
@@ -254,7 +260,7 @@ public class ClientHandler extends Thread{
 					String orderid = (String) objIs.readObject();
 					String itemid = (String) objIs.readObject();
 					int quantity = (int) objIs.readObject();
-					Boolean isCreated = InvoiceController.create(orderid, itemid,quantity);
+					Boolean isCreated = InvoiceController.create(orderid, itemid, quantity);
 					objOs.writeObject(isCreated);
 				}
 				
@@ -264,6 +270,7 @@ public class ClientHandler extends Thread{
 					objOs.writeObject(isDeleted);
 					
 				}
+				
 				if(action == Actions.UPDATE_ORDERED_ITEM) {
 					String orderid = (String) objIs.readObject();
 					String oldItemid = (String) objIs.readObject();

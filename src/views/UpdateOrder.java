@@ -141,7 +141,7 @@ public class UpdateOrder {
 		updatePanel.add(statusLabel);
 		
 		JComboBox<String> dayComboBox = new JComboBox<>();
-		dayComboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "21"}));
+		dayComboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
 		dayComboBox.setToolTipText("Day");
 		dayComboBox.setBounds(123, 156, 40, 20);
 		updatePanel.add(dayComboBox);

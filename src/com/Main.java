@@ -35,6 +35,10 @@ public class Main {
 		//EmployeeController.create("0001", "Rick", "Jones","ricky@gbail.com","18765550000", Role.EMPLOYEE,"test");
 		//CustomerController.create("0001", "Bill", "Nye", "billnye@scienceguy.com","18763141529","customer");
 		//OrderController.create("0001","0001","0001", newDate);
+		//ItemController.create("0001", "Speaker System", 45000.00, "Sound", 14);
+		//ItemController.create("0001", "Speaker System", 45000.00, "Sound", 14);
+		//ItemController.create("0002", "Stage", 5000.00, "Structure", 14);
+		//ItemController.create("0003", "Tent", 500.00, "Structure", 14);
 		
 		
 	}

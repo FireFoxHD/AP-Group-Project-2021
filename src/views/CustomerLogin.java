@@ -11,21 +11,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
+
+import client.Client;
+
 import javax.swing.JButton;
 
 public class CustomerLogin extends JFrame{
 
+	private static final long serialVersionUID = 1L;
 	private JTextField txtIdHere;
 	private JTextField textField_1;
+	private Client client;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CustomerLogin window = new CustomerLogin();
+					CustomerLogin window = new CustomerLogin(new Client());
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,16 +36,12 @@ public class CustomerLogin extends JFrame{
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
-	public CustomerLogin() {
+	
+	public CustomerLogin(Client client) {
+		this.client = client;
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		
 		this.setTitle("Customer Login");

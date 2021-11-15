@@ -74,6 +74,5 @@ public class Item implements Serializable{
 				+ ", status=" + numInStock + "]";
 	}
 
-
 	
 }

@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+
+import client.Client;
+
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -14,6 +17,7 @@ import java.awt.event.ActionEvent;
 public class MainScreen {
 
 	private JFrame frame;
+	private Client client = new Client();
 
 	/**
 	 * Launch the application.
@@ -35,6 +39,7 @@ public class MainScreen {
 	 * Create the application.
 	 */
 	public MainScreen() {
+		client = new Client();
 		initialize();
 	}
 
@@ -56,7 +61,7 @@ public class MainScreen {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				EmployeeLogin eml = new EmployeeLogin();
+				EmployeeLogin eml = new EmployeeLogin(client);
 				eml.setVisible(true);
 			}
 		});
@@ -68,7 +73,7 @@ public class MainScreen {
 		btnCustomerLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				CustomerLogin cl = new CustomerLogin();
+				CustomerLogin cl = new CustomerLogin(client);
 				cl.setVisible(true);
 			}
 		});
@@ -79,6 +84,13 @@ public class MainScreen {
 		JButton btnAdminLogin = new JButton("Admin Login");
 		btnAdminLogin.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnAdminLogin.setBounds(233, 211, 197, 52);
+		btnAdminLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				EmployeeLogin eml = new EmployeeLogin(client);
+				eml.setVisible(true);
+			}
+		});
 		frame.getContentPane().add(btnAdminLogin);
 		
 		JButton btnExit = new JButton("Exit");

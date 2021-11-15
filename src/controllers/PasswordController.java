@@ -202,7 +202,7 @@ public class PasswordController {
 		} 
 
         // Create array for salt
-        byte[] salt = new byte[16];
+        byte[] salt = new byte[512];
 
         // Get a random salt
         sr.nextBytes(salt);

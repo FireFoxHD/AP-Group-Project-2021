@@ -23,6 +23,7 @@ public enum Actions implements Serializable{
 	DELETE_EMPLOYEE,
 	CREATE_ITEM,
 	UPDATE_ITEM,
+	UPDATE_STOCK,
 	READ_ITEM,
 	READ_ALL_ITEMS,
 	DELETE_ITEM,
