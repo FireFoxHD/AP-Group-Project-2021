@@ -29,6 +29,7 @@ public class InvoiceController {
 		InvoiceController.connection = DbConnect.getConnection();
 	}
 	
+	//Add items to order
 	public static Boolean create(String orderid,  String itemid, int quantity) {
 		String insertSql = "INSERT INTO grizzlydb.order_item (orderID, itemID, quantity) VALUES ('"+ orderid + "','" + itemid + "','" + quantity +"')";
 		try {
@@ -53,6 +54,7 @@ public class InvoiceController {
 	}
 
 	
+	//gets all items associated with an order
 	public static ArrayList<Item> read(String orderid) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		String selectSql = "SELECT * FROM grizzlydb.order_item WHERE orderID ='" + orderid + "'";
@@ -74,6 +76,7 @@ public class InvoiceController {
 		return items;
 	}
 
+	//Update item on an order
 	public static Boolean update(String orderid, String itemId, String newItem, int quantity) {
 		if(deleteItemFromOrder(orderid, itemId) && create(orderid, newItem, quantity)){
 			return true;
@@ -81,7 +84,7 @@ public class InvoiceController {
 		return false;
 	}
 
-
+	//delete item from order
 	public static Boolean deleteItemFromOrder(String orderid, String itemid) {
 		String deleteSql = "DELETE FROM grizzlydb.order_item WHERE orderID = '" + orderid +"' AND itemID = "+itemid;
 		try {
@@ -106,6 +109,7 @@ public class InvoiceController {
 		}
 	}
 	
+	//delte all items associated with an order
 	public static Boolean deleteOrder(String orderid) {
 		String deleteSql = "DELETE FROM grizzlydb.order_item WHERE orderID = " + orderid;
 		try {
