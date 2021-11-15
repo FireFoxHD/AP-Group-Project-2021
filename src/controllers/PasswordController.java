@@ -45,11 +45,11 @@ public class PasswordController {
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Password entry created", "Password Creation",
 						JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Password Updated For Employee " +id);
+				logger.info("Password Updated For User " +id);
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL Exception thrown: create " + e.getMessage());
-			logger.error("Unable To Update Password For Employee " +id+"\n"+e.getMessage());
+			logger.error("Unable To Update Password For User " +id+"\n"+e.getMessage());
 		}
 	
 	}
@@ -99,7 +99,7 @@ public class PasswordController {
 		numOfRowsAffected=0;
 		if(validate(id, oldPassword)) {
 			String password = encryptPassword(newPassword,salt);
-			String updateSql = "UPDATE grizzlydb.hash SET hash='" + password + "' WHERE id = '" + id + "'";
+			String updateSql = "UPDATE grizzlydb.hash SET hash='" + password + "',salt='"+salt+"' WHERE id = '" + id+"'" ;
 			try {
 				stmt = connection.createStatement();
 				numOfRowsAffected = stmt.executeUpdate(updateSql);
@@ -107,7 +107,7 @@ public class PasswordController {
 				if(numOfRowsAffected == 1)
 				{
 					JOptionPane.showMessageDialog(null, "Updated Successfully", "Update Message", JOptionPane.INFORMATION_MESSAGE);
-					logger.info("Name For Item Record "+id+ " Updated");
+					logger.info("Password For User "+id+ " Updated");
 				}
 			}
 			catch(SQLException e)
@@ -125,20 +125,20 @@ public class PasswordController {
 	
 	// Delete Password
 	public static Boolean delete(String id) {
-		String deleteSql = "DELETE FROM grizzlydb.hash WHERE id = " + id;
+		String deleteSql = "DELETE FROM grizzlydb.hash WHERE id ='"+id+"'";
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(deleteSql);
 
 			if(numOfRowsAffected == 1)
 			{
-				JOptionPane.showMessageDialog(null, "Equipment Record Deleted", "Message", 
+				JOptionPane.showMessageDialog(null, "Password Deleted", "Message", 
 						JOptionPane.INFORMATION_MESSAGE);
-				logger.info("Item Record "+id+" Deleted");
+				logger.info("Password for User "+id+" Deleted");
 			}
 		}catch(SQLException e){
 			System.err.println(e.getMessage());
-			logger.error("Unable To Delete Item Record "+id+", "+e.getMessage());
+			logger.error("Unable To Delete Password for User "+id+", "+e.getMessage());
 		}
 		
 		if (numOfRowsAffected == 1) {

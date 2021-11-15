@@ -2,14 +2,21 @@ package views;
 
 import java.awt.EventQueue;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import client.Client;
+import models.Actions;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class passwordActions {
@@ -18,7 +25,7 @@ public class passwordActions {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-
+	Client client = new Client();
 	/**
 	 * Launch the application.
 	 */
@@ -97,5 +104,27 @@ public class passwordActions {
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
-	}
+		
+		JButton btnNewButton = new JButton("Update");
+		btnNewButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				
+				String id = textField.getText();
+				String pass = textField_1.getText();
+				String newpass = textField_2.getText();
+				
+				client.sendAction(Actions.UPDATE_PASSWORD);
+				client.send(id);
+				client.send(pass);
+				client.send(newpass);
+				
+				textField.setText("");
+				textField_1.setText("");
+				textField_2.setText("");
+			}	
+		});
+		btnNewButton.setBounds(331, 216, 85, 34);
+		frame.add(btnNewButton);
+		}
+	
 }
