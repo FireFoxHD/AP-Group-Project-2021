@@ -28,7 +28,6 @@ public class CustomerLogin extends JFrame{
 	private JTextField txtIdHere;
 	private JTextField textField_1;
 	private Client client;
-	private Client client = new Client();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
