@@ -2,17 +2,23 @@ package views;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import client.Client;
+import models.Actions;
 
 import javax.swing.JButton;
 
@@ -22,7 +28,7 @@ public class CustomerLogin extends JFrame{
 	private JTextField txtIdHere;
 	private JTextField textField_1;
 	private Client client;
-
+	private Client client = new Client();
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -65,20 +71,48 @@ public class CustomerLogin extends JFrame{
 		this.getContentPane().add(txtIdHere);
 		txtIdHere.setColumns(10);
 		
-		textField_1 = new JTextField();
+		textField_1 = new JPasswordField();
 		textField_1.setToolTipText("Enter Password here.");
 		textField_1.setBounds(219, 172, 197, 34);
 		this.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
+		JLabel invalidLabel = new JLabel();
+		invalidLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		invalidLabel.setBounds(219, 273, 197, 34);
+		this.getContentPane().add(invalidLabel);
+		
 		JButton btnNewButton = new JButton("Login");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnNewButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				//add action here
-				JOptionPane.showMessageDialog(btnNewButton, "Login sucessful", "Action", JOptionPane.INFORMATION_MESSAGE);
-			}
+				
+				String id = txtIdHere.getText();
+				String password = textField_1.getText();  
+				
+				if(!(id.isEmpty() || password.isEmpty())) { //switch to isblank
+					client.sendAction(Actions.LOGIN);
+					List<String> params = new ArrayList<String>();
+					params.add(id);
+					params.add(password);
+					client.sendMultiple(params);
+					Boolean isValid = (Boolean) client.getResponse();
+					
+					if(isValid) {
+						System.out.println("Password Valid");
+						JOptionPane.showMessageDialog(null, "Login Sucessful", "Action", JOptionPane.INFORMATION_MESSAGE);
+					}else{
+						invalidLabel.setText("Invalid Credentials");
+					}
+					
+				}
+
+				txtIdHere.setText("");
+				textField_1.setText("");
+			}	
 		});
 		btnNewButton.setBounds(331, 216, 85, 34);
 		this.getContentPane().add(btnNewButton);
-	}
+		
+		
+		}
 }
