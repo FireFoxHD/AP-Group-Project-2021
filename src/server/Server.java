@@ -18,7 +18,7 @@ public class Server {
 		try{
 			dBConn = DbConnect.getConnection();
 			server = new ServerSocket(8888);
-		} catch (IOExceptio e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		clientCount=0;
