@@ -18,6 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 
+import client.Client;
+import models.Customer;
+import models.Actions;
+
 public class CustomerUpdate extends JFrame{
 
 	
@@ -28,6 +32,8 @@ public class CustomerUpdate extends JFrame{
 	private JTable table;
 	private JTextField textField;
 	private JTextField textField_4;
+	
+	private Client client = new Client();
 
 	/**
 	 * Launch the application.
@@ -108,6 +114,29 @@ public class CustomerUpdate extends JFrame{
 		JButton btnNewButton = new JButton("Create");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			
+				String id = idTextField.getText();
+				String fname = textField_1.getText();
+				String lname = textField_2.getText();
+				String pass = textField_3.getText();
+				String email = textField_4.getText();
+				String num =textField.getText();
+				
+				client.sendAction(Actions.CREATE_CUSTOMER);
+				client.send(id);
+				client.send(fname);
+				client.send(lname);
+				client.send(email);
+				client.send(num);
+				client.send(pass);
+				
+				idTextField.setText("");
+				textField.setText("");
+				textField_1.setText("");
+				textField_2.setText("");
+				textField_3.setText("");
+				textField_4.setText("");
+				
 			}
 		});
 		btnNewButton.setToolTipText("Creates a record.");
@@ -118,6 +147,28 @@ public class CustomerUpdate extends JFrame{
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String id = idTextField.getText();
+				String fname = textField_1.getText();
+				String lname = textField_2.getText();
+				//String pass = textField_3.getText();
+				String email = textField_4.getText();
+				String num =textField.getText();
+				
+				client.sendAction(Actions.UPDATE_CUSTOMER);
+				client.send(id);
+				client.send(fname);
+				client.send(lname);
+				client.send(email);
+				client.send(num);
+				
+				idTextField.setText("");
+				textField.setText("");
+				textField_1.setText("");
+				textField_2.setText("");
+				textField_3.setText("");
+				textField_4.setText("");
+				
 			}
 		});
 		btnUpdate.setToolTipText("Updates a record.");
@@ -128,6 +179,22 @@ public class CustomerUpdate extends JFrame{
 		JButton btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String id = idTextField.getText();
+				client.sendAction(Actions.DELETE_CUSTOMER);
+				client.send(id);
+				
+				/*client.sendAction(Actions.DELETE_PASSWORD);
+				client.send(id);*/
+				
+				idTextField.setText("");
+				textField.setText("");
+				textField_1.setText("");
+				textField_2.setText("");
+				textField_3.setText("");
+				textField_4.setText("");
+				
+				
 			}
 		});
 		btnDelete.setToolTipText("Deletes a record.");
@@ -173,13 +240,13 @@ public class CustomerUpdate extends JFrame{
 		this.getContentPane().add(lblPhone);
 		
 		textField = new JTextField();
-		textField.setToolTipText("Enter customer last name here.");
+		textField.setToolTipText("Enter customer phone number here.");
 		textField.setColumns(10);
 		textField.setBounds(148, 233, 187, 35);
 		this.getContentPane().add(textField);
 		
 		textField_4 = new JTextField();
-		textField_4.setToolTipText("Enter customer first name here.");
+		textField_4.setToolTipText("Enter customer email here.");
 		textField_4.setColumns(10);
 		textField_4.setBounds(148, 187, 187, 35);
 		this.getContentPane().add(textField_4);

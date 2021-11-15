@@ -5,6 +5,7 @@ import java.net.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import dbconnection.DbConnect;
 
 import javax.swing.JOptionPane;
 	
@@ -17,7 +18,7 @@ public class Server {
 	
 	private static void start(){
 		try{
-			dBConn = getDatabaseConnection();
+			dBConn = DbConnect.getConnection();
 			server = new ServerSocket(8888);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -39,23 +40,6 @@ public class Server {
 	    }catch(Exception e){
 	      System.out.println(e);
 	    }
-	}
-	
-	private static Connection getDatabaseConnection(){
-	if(dBConn == null){
-		try{
-			String url = "jdbc:mysql://localhost:3306/clientServerLab";
-			dBConn = DriverManager.getConnection(url,"root","");
-			if (dBConn != null) {
-				System.out.println("Connection Successful");
-				JOptionPane.showMessageDialog(null, "Connected to Local Server and Database",
-						"JDBC Connection Status", JOptionPane.INFORMATION_MESSAGE);
-			}
-		}catch (SQLException e){
-			JOptionPane.showMessageDialog(null,"could not connect to database\n"+e,"Connection Failure",JOptionPane.ERROR_MESSAGE);
-		}
-	}
-	return dBConn;
 	}
 	
 }
