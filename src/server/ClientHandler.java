@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import controllers.CustomerController;
 import controllers.EmployeeController;
+import controllers.InvoiceController;
 import controllers.ItemController;
 import controllers.OrderController;
 import controllers.PasswordController;
@@ -245,6 +246,44 @@ public class ClientHandler extends Thread{
 				if(action == Actions.DELETE_PASSWORD) {
 					String id = (String) objIs.readObject();
 					Boolean isDeleted = PasswordController.delete(id);
+					objOs.writeObject(isDeleted);
+				}
+				
+
+				//Invoice Actions
+				if(action == Actions.ADD_ITEM_TO_ORDER) {
+					String orderid = (String) objIs.readObject();
+					String itemid = (String) objIs.readObject();
+					int quantity = (int) objIs.readObject();
+					Boolean isCreated = InvoiceController.create(orderid, itemid,quantity);
+					objOs.writeObject(isCreated);
+				}
+				
+				if(action == Actions.READ_ORDERED_ITEMS) {
+					String id = (String) objIs.readObject();
+					ArrayList<Item> isDeleted = InvoiceController.read(id);
+					objOs.writeObject(isDeleted);
+					
+				}
+				if(action == Actions.UPDATE_ORDERED_ITEM) {
+					String orderid = (String) objIs.readObject();
+					String oldItemid = (String) objIs.readObject();
+					String newItemid = (String) objIs.readObject();
+					int quantity = (int) objIs.readObject();
+					Boolean isUpdated = InvoiceController.update(orderid, oldItemid,newItemid,quantity);
+					objOs.writeObject(isUpdated);
+				}
+				
+				if(action == Actions.DELETE_ITEM_FROM_ORDER) {
+					String orderid = (String) objIs.readObject();
+					String itemid = (String) objIs.readObject();
+					Boolean isDeleted = InvoiceController.deleteItemFromOrder(orderid,itemid);
+					objOs.writeObject(isDeleted);
+				}
+				
+				if(action == Actions.DELETE_ALL_ORDERED_ITEMS) {
+					String id = (String) objIs.readObject();
+					Boolean isDeleted = InvoiceController.deleteOrder(id);
 					objOs.writeObject(isDeleted);
 				}
 

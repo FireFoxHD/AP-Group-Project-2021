@@ -29,8 +29,7 @@ public class ItemController {
 	}
 	
 	public static Boolean create(String id,  String name, double cost, String category, int numInStock) {
-		String insertSql = "INSERT INTO equipment_rental.equipment_table (equipment_id, equipment_category, equipment_name, cost, rental_status) VALUES ('"
-				+ id + "','" + category + "','" + name + "', '" + cost + "', '" + numInStock + "')";
+		String insertSql = "INSERT INTO grizzlydb.item VALUES ('"+ id + "','" + category + "','" + name + "', '" + cost + "', '" + numInStock + "')";
 		try {
 			stmt = connection.createStatement();
 			int numRowsAffected = stmt.executeUpdate(insertSql);
@@ -54,7 +53,7 @@ public class ItemController {
 
 	public static Item read(String id) {
 		Item item = null;
-		String selectSql = "SELECT * FROM grizzlydb.item WHERE equipment_id = '" + id + "'";
+		String selectSql = "SELECT * FROM grizzlydb.item WHERE id = '" + id + "'";
 		try {
 			stmt = connection.createStatement();
 			result = stmt.executeQuery(selectSql);
@@ -135,7 +134,7 @@ public class ItemController {
 
 
 	public static void Delete(String id) {
-		String deleteSql = "DELETE FROM equipment_rental.equipment_table WHERE equipment_id = " + id;
+		String deleteSql = "DELETE FROM grizzlydb.item WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(deleteSql);

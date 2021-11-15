@@ -43,6 +43,7 @@ public class CustomerController {
 						JOptionPane.INFORMATION_MESSAGE);
 				logger.info("Customer Record Created");
 			}
+			
 			new PasswordController();
 			PasswordController.createPassword(id, pass);
 			
