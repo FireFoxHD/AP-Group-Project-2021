@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 import java.awt.Font;
@@ -28,15 +29,13 @@ import javax.swing.SwingConstants;
 
 public class EmployeeLogin extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private JFrame frmCustomerLogin;
+	//private JFrame frmCustomerLogin;
+	private JFrame frame;
 	private JTextField idField;
 	private JPasswordField passwordField;
 	private Client client = null;
-	private static final Logger logger = LogManager.getLogger(Customer.class);
+	private static final Logger logger = LogManager.getLogger(EmployeeLogin.class);
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,13 +51,13 @@ public class EmployeeLogin extends JFrame {
 	}
 
 	public EmployeeLogin(Client client) {
+		frame = this;
 		this.client = client;
 		initialize();
 	}
-
+	
 	
 	private void initialize() {
-		
 		
 		this.setTitle("Employee Login");
 		this.setBounds(100, 100, 617, 426);
@@ -116,7 +115,10 @@ public class EmployeeLogin extends JFrame {
 					Boolean isValid = (Boolean) client.getResponse();
 					
 					if(isValid) {
-						System.out.println("password valid");
+						JOptionPane.showMessageDialog(null, "Login Sucessful", "Action", JOptionPane.INFORMATION_MESSAGE);
+						logger.info("Employee "+id+" has logged in");
+						frame.dispose();
+						CustomerUpdate cu = new CustomerUpdate(client);
 					}else{
 						invalidLabel.setText("Invalid Credentials");
 					}
@@ -129,6 +131,7 @@ public class EmployeeLogin extends JFrame {
 		});
 		loginButton.setBounds(219, 218, 197, 34);
 		this.getContentPane().add(loginButton);
+		this.setVisible(true);
 		
 		
 		

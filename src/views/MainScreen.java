@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 public class MainScreen {
 
 	private JFrame frame;
-	private Client client = new Client();
+	private Client client;
 
 	/**
 	 * Launch the application.
@@ -43,9 +43,6 @@ public class MainScreen {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 680, 408);
@@ -62,7 +59,6 @@ public class MainScreen {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				EmployeeLogin eml = new EmployeeLogin(client);
-				eml.setVisible(true);
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -74,7 +70,6 @@ public class MainScreen {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				CustomerLogin cl = new CustomerLogin(client);
-				cl.setVisible(true);
 			}
 		});
 		btnCustomerLogin.setFont(new Font("Tahoma", Font.BOLD, 16));

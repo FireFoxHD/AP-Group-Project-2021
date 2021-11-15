@@ -28,6 +28,8 @@ public class CustomerLogin extends JFrame{
 	private JTextField txtIdHere;
 	private JTextField textField_1;
 	private Client client;
+	private JFrame frame;
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -40,12 +42,14 @@ public class CustomerLogin extends JFrame{
 			}
 		});
 	}
-
 	
-	public CustomerLogin(Client client) {
-		this.client = client;
+	
+	public CustomerLogin(Client client){
+		frame = this;
+		this.client=client;
 		initialize();
 	}
+	
 
 	private void initialize() {
 		
@@ -99,6 +103,8 @@ public class CustomerLogin extends JFrame{
 					if(isValid) {
 						System.out.println("Password Valid");
 						JOptionPane.showMessageDialog(null, "Login Sucessful", "Action", JOptionPane.INFORMATION_MESSAGE);
+						frame.dispose();
+						custAddItem cadd = new custAddItem(client);
 					}else{
 						invalidLabel.setText("Invalid Credentials");
 					}
@@ -111,6 +117,7 @@ public class CustomerLogin extends JFrame{
 		});
 		btnNewButton.setBounds(331, 216, 85, 34);
 		this.getContentPane().add(btnNewButton);
+		this.setVisible(true);
 		
 		
 		}
