@@ -33,7 +33,7 @@ public class CustomerUpdate extends JFrame{
 	private JTextField textField;
 	private JTextField textField_4;
 	
-	private Client client = new Client();
+	private Client client;
 
 	/**
 	 * Launch the application.
@@ -54,8 +54,15 @@ public class CustomerUpdate extends JFrame{
 	/**
 	 * Create the application.
 	 */
+	public CustomerUpdate(Client client) {
+		this.client = client;
+		initialize();
+		this.setVisible(true);
+	}
+	
 	public CustomerUpdate() {
 		initialize();
+		client = new Client();
 	}
 
 	/**

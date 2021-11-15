@@ -22,11 +22,11 @@ import models.Actions;
 
 import javax.swing.JButton;
 
-public class CustomerLogin extends JFrame{
+public class CustomerLogin{
 
 	private JTextField txtIdHere;
 	private JTextField textField_1;
-	private Client client = new Client();
+	private Client client;
 	/**
 	 * Launch the application.
 	 */
@@ -35,7 +35,6 @@ public class CustomerLogin extends JFrame{
 			public void run() {
 				try {
 					CustomerLogin window = new CustomerLogin();
-					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,8 +45,14 @@ public class CustomerLogin extends JFrame{
 	/**
 	 * Create the application.
 	 */
+	public CustomerLogin(Client client){
+		this.client=client;
+		initialize();
+	}
+	
 	public CustomerLogin() {
 		initialize();
+		client = new Client();
 	}
 
 	/**
@@ -55,37 +60,38 @@ public class CustomerLogin extends JFrame{
 	 */
 	private void initialize() {
 		
-		this.setTitle("Customer Login");
-		this.setBounds(100, 100, 617, 426);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.getContentPane().setLayout(null);
+		JFrame frame = new JFrame();
+		frame.setTitle("Customer Login");
+		frame.setBounds(100, 100, 617, 426);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Customer ID");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel.setBounds(72, 136, 114, 26);
-		this.getContentPane().add(lblNewLabel);
+		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Password");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(72, 169, 114, 34);
-		this.getContentPane().add(lblNewLabel_1);
+		frame.getContentPane().add(lblNewLabel_1);
 		
 		txtIdHere = new JTextField();
 		txtIdHere.setToolTipText("Enter ID here");
 		txtIdHere.setBounds(219, 130, 197, 36);
-		this.getContentPane().add(txtIdHere);
+		frame.getContentPane().add(txtIdHere);
 		txtIdHere.setColumns(10);
 		
 		textField_1 = new JPasswordField();
 		textField_1.setToolTipText("Enter Password here.");
 		textField_1.setBounds(219, 172, 197, 34);
-		this.getContentPane().add(textField_1);
+		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
 		JLabel invalidLabel = new JLabel();
 		invalidLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		invalidLabel.setBounds(219, 273, 197, 34);
-		this.getContentPane().add(invalidLabel);
+		frame.getContentPane().add(invalidLabel);
 		
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.addActionListener(new ActionListener(){
@@ -105,6 +111,8 @@ public class CustomerLogin extends JFrame{
 					if(isValid) {
 						System.out.println("Password Valid");
 						JOptionPane.showMessageDialog(null, "Login Sucessful", "Action", JOptionPane.INFORMATION_MESSAGE);
+						frame.dispose();
+						custAddItem cadd = new custAddItem(client);
 					}else{
 						invalidLabel.setText("Invalid Credentials");
 					}
@@ -116,7 +124,8 @@ public class CustomerLogin extends JFrame{
 			}	
 		});
 		btnNewButton.setBounds(331, 216, 85, 34);
-		this.getContentPane().add(btnNewButton);
+		frame.getContentPane().add(btnNewButton);
+		frame.setVisible(true);
 		
 		
 		}

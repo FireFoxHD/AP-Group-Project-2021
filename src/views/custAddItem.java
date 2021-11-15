@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import client.Client;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JComboBox;
@@ -13,10 +16,11 @@ import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
-public class custAddItem extends JFrame {
+public class custAddItem{
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private Client client;
 
 	/**
 	 * Launch the application.
@@ -26,24 +30,34 @@ public class custAddItem extends JFrame {
 			public void run() {
 				try {
 					custAddItem frame = new custAddItem();
-					frame.setVisible(true);
+					//frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
-	/**
-	 * Create the frame.
-	 */
-	public custAddItem() {
-		setTitle("Order Item");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 733, 391);
+	public custAddItem(Client client) {
+		this.client = client;
+		initialize();
+	}
+	
+	public custAddItem()
+	{
+		this.client = new Client();
+		initialize();
+	}
+	
+	public void initialize()
+	{
+		JFrame frame = new JFrame();
+		
+		frame.setTitle("Order Item");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 733, 391);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("Item Category");
@@ -91,5 +105,7 @@ public class custAddItem extends JFrame {
 		textField.setBounds(318, 225, 196, 27);
 		contentPane.add(textField);
 		textField.setColumns(10);
+		
+		frame.setVisible(true);
 	}
 }

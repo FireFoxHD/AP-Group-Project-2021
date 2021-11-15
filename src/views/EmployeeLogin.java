@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 import java.awt.Font;
@@ -26,20 +27,19 @@ import javax.swing.JButton;
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
 
-public class EmployeeLogin extends JFrame {
+public class EmployeeLogin {
 
-	private JFrame frmCustomerLogin;
 	private JTextField idField;
 	private JPasswordField passwordField;
 	private Client client = null;
-	private static final Logger logger = LogManager.getLogger(Customer.class);
+	private static final Logger logger = LogManager.getLogger(EmployeeLogin.class);
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					EmployeeLogin window = new EmployeeLogin();
-					window.setVisible(true);
+					//window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,54 +47,59 @@ public class EmployeeLogin extends JFrame {
 		});
 	}
 
-	public EmployeeLogin() {
-		client = new Client();
+	public EmployeeLogin(Client client) {
+		this.client = client;
 		initialize();
 	}
-
+	
+	public EmployeeLogin() {
+		//this.client = new Client();
+		initialize();
+	}
 	
 	private void initialize() {
 		
+		JFrame frame = new JFrame();
 		
-		this.setTitle("Employee Login");
-		this.setBounds(100, 100, 617, 426);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.getContentPane().setLayout(null);
+		frame.setTitle("Employee Login");
+		frame.setBounds(100, 100, 617, 426);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		
 		JLabel welcomeLabel = new JLabel("Welcome");
 		welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 50));
 		welcomeLabel.setBounds(184, 26, 232, 55);
-		this.getContentPane().add(welcomeLabel);
+		frame.getContentPane().add(welcomeLabel);
 		
 		JLabel idLabel = new JLabel("Staff ID");
 		idLabel.setForeground(SystemColor.textInactiveText);
 		idLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		idLabel.setBounds(118, 136, 68, 26);
-		this.getContentPane().add(idLabel);
+		frame.getContentPane().add(idLabel);
 		
 		JLabel passwordLabel = new JLabel("Password");
 		passwordLabel.setForeground(SystemColor.textInactiveText);
 		passwordLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		passwordLabel.setBounds(118, 172, 114, 34);
-		this.getContentPane().add(passwordLabel);
+		frame.getContentPane().add(passwordLabel);
 		
 		idField = new JTextField();
 		idField.setToolTipText("Enter ID");
 		idField.setBounds(219, 130, 197, 36);
-		this.getContentPane().add(idField);
+		frame.getContentPane().add(idField);
 		idField.setColumns(10);
 		
 		passwordField = new JPasswordField();
 		passwordField.setToolTipText("Enter password");
 		passwordField.setBounds(219, 172, 197, 34);
-		this.getContentPane().add(passwordField);
+		frame.getContentPane().add(passwordField);
 		passwordField.setColumns(10);
 		
 		JLabel invalidLabel = new JLabel();
 		invalidLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		invalidLabel.setBounds(219, 273, 197, 34);
-		this.getContentPane().add(invalidLabel);
+		frame.getContentPane().add(invalidLabel);
 		
 		JButton loginButton = new JButton("Login");
 		loginButton.addActionListener(new ActionListener() {
@@ -112,7 +117,10 @@ public class EmployeeLogin extends JFrame {
 					Boolean isValid = (Boolean) client.getResponse();
 					
 					if(isValid) {
-						System.out.println("password valid");
+						JOptionPane.showMessageDialog(null, "Login Sucessful", "Action", JOptionPane.INFORMATION_MESSAGE);
+						logger.info("Employee "+id+" has logged in");
+						frame.dispose();
+						CustomerUpdate cu = new CustomerUpdate(client);
 					}else{
 						invalidLabel.setText("Invalid Credentials");
 					}
@@ -124,7 +132,8 @@ public class EmployeeLogin extends JFrame {
 			}
 		});
 		loginButton.setBounds(219, 218, 197, 34);
-		this.getContentPane().add(loginButton);
+		frame.getContentPane().add(loginButton);
+		frame.setVisible(true);
 		
 		
 		
