@@ -114,19 +114,19 @@ public class CustomerController {
 	}
 
 	// Update all (except password)
-	public static Boolean update(String id, String firstname, String lastname, String email, String phoneNumber, double bal) {
-		String updateSQL = "UPDATE grizzlydb.customer SET id='" + firstname+ "' WHERE id = " + id;
+	public static Boolean update(String id, String firstname, String lastname, String email, String phoneNumber) {
+		String updateSQL = "UPDATE grizzlydb.customer SET firstname='" + firstname+ "', lastname='"+lastname+"',email='"+email+"',phoneNumber='"+phoneNumber+"' WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(updateSQL);
 			if (numOfRowsAffected == 1) {
 				JOptionPane.showMessageDialog(null, "Customer record has been updated", "Customer Update",
 						JOptionPane.INFORMATION_MESSAGE);
-				logger.info("First Name Updated For Customer " +id);
+				logger.info("Record Updated For Customer " +id);
 			}
 		} catch (SQLException e) {
 			System.err.println("Error Updating: " + e.getMessage());
-			logger.error("Error Updating First Name For Customer Record " +id+"\n"+e.getMessage());
+			logger.error("Error Updating Customer Record " +id+"\n"+e.getMessage());
 		}
 
 		if (numOfRowsAffected == 1) {
@@ -138,7 +138,7 @@ public class CustomerController {
 	
 	// Update Balance
 	public static boolean updateBalance(String id, double balance) {
-		String updateSQL = "UPDATE grizzlydb.customer SET id='" + id + "' WHERE id = " + id;
+		String updateSQL = "UPDATE grizzlydb.customer SET balance ='" + balance + "' WHERE id = " + id;
 		try {
 			stmt = connection.createStatement();
 			numOfRowsAffected = stmt.executeUpdate(updateSQL);

@@ -71,8 +71,7 @@ public class ClientHandler extends Thread{
 					String lastname = (String) objIs.readObject();
 					String email = (String) objIs.readObject();
 					String phoneNumber = (String) objIs.readObject();
-					double bal = (double) objIs.readObject();
-					Boolean isUpdated = CustomerController.update(id, firstname, lastname, email, phoneNumber, bal);
+					Boolean isUpdated = CustomerController.update(id, firstname, lastname, email, phoneNumber);
 					objOs.writeObject(isUpdated);
 				}
 				
@@ -97,7 +96,9 @@ public class ClientHandler extends Thread{
 				if(action == Actions.DELETE_CUSTOMER) {
 					String id = (String) objIs.readObject();
 					Boolean isDeleted = CustomerController.delete(id);
+					Boolean passDeleted = PasswordController.delete(id);
 					objOs.writeObject(isDeleted);
+					objOs.writeObject(passDeleted);
 				}
 				
 				//EMPLOYEE ACTIONS
