@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+
+import client.Client;
+
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -14,6 +17,7 @@ import java.awt.event.ActionEvent;
 public class MainScreen {
 
 	private JFrame frame;
+	private Client client;
 
 	/**
 	 * Launch the application.
@@ -36,6 +40,7 @@ public class MainScreen {
 	 */
 	public MainScreen() {
 		initialize();
+		client = new Client();
 	}
 
 	/**
@@ -56,8 +61,7 @@ public class MainScreen {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				EmployeeLogin eml = new EmployeeLogin();
-				eml.setVisible(true);
+				EmployeeLogin eml = new EmployeeLogin(client);
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -68,8 +72,8 @@ public class MainScreen {
 		btnCustomerLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				CustomerLogin cl = new CustomerLogin();
-				cl.setVisible(true);
+				CustomerLogin cl = new CustomerLogin(client);
+
 			}
 		});
 		btnCustomerLogin.setFont(new Font("Tahoma", Font.BOLD, 16));
